@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -47,11 +48,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
   bool firstRun = true;
   final locationController = TextEditingController();
+  Geolocator geolocator = Geolocator();
   String _location;
 
   Future<AstronData> fetchInfo() async {
+    List<Placemark> placemark = await Geolocator().placemarkFromAddress(_location);
+    final Position coords = placemark[0].position;
+
+    final String placeName = this.placeName(placemark[0]);
+    locationController.text = placeName;
+
     final response = await http
-        .get('https://api.usno.navy.mil/rstt/oneday?date=today&loc=${_location}');
+        .get('https://api.usno.navy.mil/rstt/oneday?date=today&loc=$placeName');
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON
@@ -60,6 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
       // If that response was not OK, throw an error.
       throw Exception('Failed to load post');
     }
+  }
+
+  // Put location name in format for display and passing to AstronData api
+  String placeName(Placemark placemark) {
+    return '${placemark.locality.replaceAll('Saint', 'St.')}, ${placemark.administrativeArea}';
   }
 
   @override
