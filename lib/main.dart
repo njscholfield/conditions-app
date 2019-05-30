@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:conditions/AstronData.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +25,15 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.grey,
+        primaryColor: Colors.grey[800],
+        textTheme: TextTheme(
+          title: TextStyle(
+            color: Colors.white,
+          ),
+          display1: TextStyle(
+            color: Colors.white,
+          )
+        ),
       ),
       home: MyHomePage(title: 'Conditions'),
     );
@@ -51,10 +61,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
   bool firstRun = true;
+  final locationController = TextEditingController();
+  String _location;
 
   Future<AstronData> fetchInfo() async {
     final response = await http
-        .get('https://api.usno.navy.mil/rstt/oneday?date=today&loc=pittsburgh,pa');
+        .get('https://api.usno.navy.mil/rstt/oneday?date=today&loc=${_location}');
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON
@@ -69,6 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     firstRun = false;
+    _location = 'Pittsburgh, PA';
+    locationController.text = _location;
     _astronData = fetchInfo();
   }
 
@@ -79,6 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if(!firstRun) {
       _astronData = fetchInfo();
     }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    locationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Container(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: FutureBuilder<AstronData>(
@@ -104,14 +125,177 @@ class _MyHomePageState extends State<MyHomePage> {
             if (snapshot.hasData) {
               return new ListView(
                 children: <Widget>[
-                  new Text('Sunrise: ${snapshot.data.sunrise}'),
-                  new Text('Sunset: ${snapshot.data.sunset}'),
-                  new Text('Dusk: ${snapshot.data.dusk}'),
-                  new Text('Moonrise: ${snapshot.data.moonrise}'),
-                  new Text('Moonset: ${snapshot.data.moonset}'),
-                  new Text('Percent Full: ${snapshot.data.percentFull}'),
-                  new Text('Closest Phase: ${snapshot.data.closestPhase}'),
-                  new Text('Closest Phase Data: ${snapshot.data.closestPhaseDate}'),
+                  // Search bar
+                  new Container(
+                    margin: EdgeInsets.all(10.0),
+                    child: new TextField(
+                      controller: locationController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter a location',
+                        suffix: new IconButton(
+                          icon: new Icon(FontAwesomeIcons.search),
+                          onPressed: () {
+                            setState(() {
+                              _location = locationController.text;
+                            });
+                            _astronData = fetchInfo();
+                          },
+                        )
+                      ),
+                    ),
+                  ),
+                  // Sun Card
+                  new Container(
+                    decoration: new BoxDecoration(color: Colors.green[300]),
+                    margin: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: <Widget>[
+                        new Text('Sun', style: Theme.of(context).textTheme.display1),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            new Column(
+                              children: <Widget>[
+                                new Padding(
+                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  child: new Row(
+                                    children: <Widget>[
+                                      new Icon(
+                                        FontAwesomeIcons.solidSun,
+                                        color: Colors.yellow[600],
+                                        size: 40
+                                      ),
+                                      new Icon(FontAwesomeIcons.longArrowAltUp),
+                                    ]
+                                  ),
+                                ),
+                                new Text(
+                                  snapshot.data.sunrise,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ]
+                            ),
+                            new Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                new Padding(
+                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  child: new Row(
+                                    children: <Widget>[
+                                      new Icon(
+                                        FontAwesomeIcons.solidSun,
+                                        color: Colors.yellow[800],
+                                        size: 40,
+                                      ),
+                                      new Icon(FontAwesomeIcons.longArrowAltDown),
+                                    ],
+                                  ),
+                                ),
+                                new Text(
+                                  snapshot.data.sunset,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ],
+                            ),
+                            new Column(
+                              children: <Widget>[
+                                new Padding(
+                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  child: new Icon(
+                                    FontAwesomeIcons.solidMoon,
+                                    color: Colors.blueGrey[600],
+                                    size: 40
+                                  )
+                                ),
+                                new Text(
+                                  snapshot.data.dusk,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ]
+                            ),
+                        ]),
+                      ],
+                    ),
+                  ),
+                  // Moon Card
+                  new Container(
+                    decoration: new BoxDecoration(color: Colors.blue[200]),
+                    margin: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
+                    child: Column(
+                      children: <Widget>[
+                        new Text('Moon', style: Theme.of(context).textTheme.display1),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            new Column(
+                              children: <Widget>[
+                                new Padding(
+                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  child: new Row(
+                                    children: <Widget>[
+                                      new Icon(
+                                        FontAwesomeIcons.solidMoon,
+                                        color: Colors.blueGrey[600],
+                                        size: 40
+                                      ),
+                                      new Icon(FontAwesomeIcons.longArrowAltUp),
+                                    ]
+                                  ),
+                                ),
+                                new Text(
+                                  snapshot.data.moonrise,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ]
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                new Padding(
+                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  child: new Row(
+                                    children: <Widget>[
+                                      new Icon(
+                                        FontAwesomeIcons.solidMoon,
+                                        color: Colors.blueGrey[600],
+                                        size: 40,
+                                      ),
+                                      new Icon(FontAwesomeIcons.longArrowAltDown),
+                                    ],
+                                  ),
+                                ),
+                                new Text(
+                                  snapshot.data.moonset,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ],
+                            ),
+                            new Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                new Text(
+                                  snapshot.data.percentFull,
+                                  // style: Theme.of(context).textTheme.display1,
+                                  style: TextStyle(color: Colors.teal, fontSize: 40)
+                                ),
+                                new Text(
+                                  'Full',
+                                  style: Theme.of(context).textTheme.title
+                                )
+                              ],
+                            ),
+                          ]
+                        ),
+                        new Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: new Text('Closest Phase', style: Theme.of(context).textTheme.headline),
+                        ),
+                        new Text('${snapshot.data.closestPhase}: ${snapshot.data.closestPhaseDate}'),
+                      ],
+                    ),
+                  ),
                 ]
               );
             } else {

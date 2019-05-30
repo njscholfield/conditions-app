@@ -22,15 +22,20 @@ class AstronData {
     final Map<String, dynamic> astronInfo = json;
     final List<dynamic> sundata = astronInfo['sundata'];
     final List<dynamic> moondata = astronInfo['moondata'];
+
+    String cleanTime(time) {
+      return time.replaceAll('.', '').substring(0, time.lastIndexOf(' ') - 2).toUpperCase();
+    }
+
     return AstronData(
-      sunrise: sundata[1]['time'],
-      sunset: sundata[3]['time'],
-      dusk: sundata[4]['time'],
-      moonrise: moondata[0]['time'],
-      moonset: moondata[2]['time'],
+      sunrise: cleanTime(sundata[1]['time']),
+      sunset: cleanTime(sundata[3]['time']),
+      dusk: cleanTime(sundata[4]['time']),
+      moonrise: cleanTime(moondata[0]['time']),
+      moonset: cleanTime(moondata[2]['time']),
       percentFull: astronInfo['fracillum'],
       closestPhase: astronInfo['closestphase']['phase'],
-      closestPhaseDate: astronInfo['closestphase']['date']
+      closestPhaseDate: '${astronInfo['closestphase']['date']} at ${cleanTime(astronInfo['closestphase']['time'])}'
     );
   }
 }
