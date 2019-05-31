@@ -49,11 +49,15 @@ class _MyHomePageState extends State<MyHomePage> {
   bool firstRun = true;
   final locationController = TextEditingController();
   Geolocator geolocator = Geolocator();
-  String _location;
 
-  Future<AstronData> fetchInfo() async {
-    List<Placemark> placemark = await Geolocator().placemarkFromAddress(_location);
-    final Position coords = placemark[0].position;
+  Future<AstronData> fetchInfo({Position coords, String location}) async {
+    List<Placemark> placemark;
+    if(coords != null) {
+      placemark = await Geolocator().placemarkFromCoordinates(coords.latitude, coords.longitude);
+    } else {
+      placemark = await Geolocator().placemarkFromAddress(location);
+      coords = placemark[0].position;
+    }
 
     final String placeName = this.placeName(placemark[0]);
     locationController.text = placeName;
@@ -79,9 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     firstRun = false;
-    _location = 'Pittsburgh, PA';
-    locationController.text = _location;
-    _astronData = fetchInfo();
+    locationController.text = 'Pittsburgh, PA';
+    _astronData = fetchInfo(location: 'Pittsburgh, PA');
   }
 
   @override
@@ -89,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.didUpdateWidget(oldWidget);
     // Prevent fetchInfo from running twice for page version
     if(!firstRun) {
-      _astronData = fetchInfo();
+      _astronData = fetchInfo(location: locationController.text);
     }
   }
 
@@ -112,15 +115,29 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: EdgeInsets.all(10.0),
             child: new TextField(
               controller: locationController,
+              onSubmitted: (value) {
+                setState(() {
+                  _astronData = fetchInfo(location: value);
+                });
+              },
               decoration: InputDecoration(
                 labelText: 'Enter a location',
+                prefix: new IconButton(
+                  icon: new Icon(FontAwesomeIcons.locationArrow, color: Colors.blueAccent[700]),
+                  onPressed: () async {
+                    final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
+                    setState(() {
+                      _astronData = fetchInfo(coords: currentLocation);
+                    });
+                  },
+                ),
                 suffix: new IconButton(
                   icon: new Icon(FontAwesomeIcons.search),
                   onPressed: () {
                     setState(() {
-                      _location = locationController.text;
+                      _astronData = fetchInfo(location: locationController.text);
                     });
-                    _astronData = fetchInfo();
+                    FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
                   },
                 )
               ),
