@@ -21,18 +21,34 @@ class AstronData {
   factory AstronData.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> astronInfo = json;
     final List<dynamic> sundata = astronInfo['sundata'];
-    final List<dynamic> moondata = astronInfo['moondata'];
 
     String cleanTime(time) {
       return time.replaceAll('.', '').substring(0, time.lastIndexOf(' ') - 2).toUpperCase();
+    }
+    
+    String moonData(String mode) {
+      String time = '---';
+      if(mode == 'R' && astronInfo['prevmoondata'] != null) {
+        time = cleanTime(astronInfo['prevmoondata'][0]['time']) + ' (-1)';
+      } else if(mode == 'S' && astronInfo['nextmoondata'] != null) {
+        time =  cleanTime(astronInfo['nextmoondata'][0]['time']) + ' (+1)';
+      } else {
+        for (Map<String, dynamic> moondata in astronInfo['moondata']) {
+          if(moondata['phen'] == mode) {
+            time = cleanTime(moondata['time']);
+            break;
+          }
+        }
+      }
+      return time;
     }
 
     return AstronData(
       sunrise: cleanTime(sundata[1]['time']),
       sunset: cleanTime(sundata[3]['time']),
       dusk: cleanTime(sundata[4]['time']),
-      moonrise: cleanTime(moondata[0]['time']),
-      moonset: cleanTime(moondata[2]['time']),
+      moonrise: moonData('R'),
+      moonset: moonData('S'),
       percentFull: astronInfo['fracillum'],
       closestPhase: astronInfo['closestphase']['phase'],
       closestPhaseDate: '${astronInfo['closestphase']['date']} at ${cleanTime(astronInfo['closestphase']['time'])}'
