@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         placemark = await Geolocator().placemarkFromAddress(location);
       } catch (PlatformException) {
+        print(PlatformException.toString());
         setState(() {
           invalidLoc = true;
         });
@@ -75,18 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
     final tz = TODAY.timeZoneOffset.inHours;
     locationController.text = placeName;
 
-    print('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
-
     final response = await http
         .get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
 
     if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON
+      // If server returns an OK response, parse the JSON)
       setState(() {
         invalidLoc = false;
       });
       return AstronData.fromJson(json.decode(response.body), context);
     } else {
+      print(response.statusCode);
       setState(() {
         invalidLoc = true;
       });
