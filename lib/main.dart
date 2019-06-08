@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:conditions/SunCard.dart';
@@ -46,8 +46,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
-  bool firstRun = true;
-  final locationController = TextEditingController();
+  bool firstRun;
+  bool locUsed;
+  bool invalidLoc;
+  final TextEditingController locationController = TextEditingController();
   Geolocator geolocator = Geolocator();
 
   Future<AstronData> fetchInfo({Position coords, String location}) async {
@@ -55,34 +57,55 @@ class _MyHomePageState extends State<MyHomePage> {
     if(coords != null) {
       placemark = await Geolocator().placemarkFromCoordinates(coords.latitude, coords.longitude);
     } else {
-      placemark = await Geolocator().placemarkFromAddress(location);
+      try {
+        placemark = await Geolocator().placemarkFromAddress(location);
+      } catch (PlatformException) {
+        setState(() {
+          invalidLoc = true;
+        });
+        return null;
+      }
       coords = placemark[0].position;
     }
 
-    final String placeName = this.placeName(placemark[0]);
+    final DateTime TODAY = DateTime.now();
+    final String today = DateFormat.yMd().format(TODAY);
+    final String placeName = '${placemark[0].locality}, ${placemark[0].administrativeArea}';
+    final String coordsStr = '${coords.latitude},${coords.longitude}';
+    final tz = TODAY.timeZoneOffset.inHours;
     locationController.text = placeName;
 
+    print('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
+
     final response = await http
-        .get('https://api.usno.navy.mil/rstt/oneday?date=today&loc=$placeName');
+        .get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON
-      return AstronData.fromJson(json.decode(response.body));
+      setState(() {
+        invalidLoc = false;
+      });
+      return AstronData.fromJson(json.decode(response.body), context);
     } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
+      setState(() {
+        invalidLoc = true;
+      });
+      return null;
     }
   }
 
   // Put location name in format for display and passing to AstronData api
   String placeName(Placemark placemark) {
-    return '${placemark.locality.replaceAll('Saint', 'St.')}, ${placemark.administrativeArea}';
+    print(placemark.administrativeArea);
+    return '${placemark.locality}, ${placemark.administrativeArea}';
   }
 
   @override
   void initState() {
     super.initState();
     firstRun = false;
+    locUsed = false;
+    invalidLoc = false;
     locationController.text = 'Pittsburgh, PA';
     _astronData = fetchInfo(location: 'Pittsburgh, PA');
   }
@@ -117,16 +140,18 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: locationController,
               onSubmitted: (value) {
                 setState(() {
+                  locUsed = false;
                   _astronData = fetchInfo(location: value);
                 });
               },
               decoration: InputDecoration(
                 labelText: 'Enter a location',
                 prefix: new IconButton(
-                  icon: new Icon(FontAwesomeIcons.locationArrow, color: Colors.blueAccent[700]),
+                  icon: new Icon(FontAwesomeIcons.locationArrow, color: locUsed ? Colors.blueAccent[700] : Colors.grey),
                   onPressed: () async {
                     final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
                     setState(() {
+                      locUsed = true;
                       _astronData = fetchInfo(coords: currentLocation);
                     });
                   },
@@ -135,11 +160,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: new Icon(FontAwesomeIcons.search),
                   onPressed: () {
                     setState(() {
+                      locUsed = false;
                       _astronData = fetchInfo(location: locationController.text);
                     });
                     FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
                   },
-                )
+                ),
+                errorBorder: new OutlineInputBorder(
+                  borderSide: invalidLoc ? BorderSide(width: 2, color: Colors.red) : BorderSide(),
+                ),
+                // helperText: invalidLoc ? 'Please enter a valid US location' : '',
+                errorText: invalidLoc ? 'Please enter a valid US location' : null
               ),
             ),
           ),
@@ -149,13 +180,24 @@ class _MyHomePageState extends State<MyHomePage> {
               if (snapshot.hasData) {
                 return new Column(
                   children: <Widget>[
+                    new Container(
+                      margin: EdgeInsets.all(10.0),
+                      child: new Text(
+                        DateFormat.yMMMMEEEEd().format(new DateTime.now()),
+                        style: Theme.of(context).textTheme.subhead.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                     new SunCard(snapshot.data),
                     new MoonCard(snapshot.data),
                   ]
                 );
               } else {
                 return new Center(
-                  child: new Text('Loading...', style: Theme.of(context).textTheme.headline)
+                  child: new Text('Please enter a location', style: Theme.of(context).textTheme.headline),
                 );
               }
             }
