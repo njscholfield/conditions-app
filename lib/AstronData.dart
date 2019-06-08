@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AstronData {
   final String sunrise;
   final String sunset;
@@ -18,12 +20,14 @@ class AstronData {
       this.closestPhase,
       this.closestPhaseDate});
 
-  factory AstronData.fromJson(Map<String, dynamic> json) {
+  factory AstronData.fromJson(Map<String, dynamic> json, BuildContext context) {
     final Map<String, dynamic> astronInfo = json;
     final List<dynamic> sundata = astronInfo['sundata'];
 
     String cleanTime(time) {
-      return time.replaceAll('.', '').substring(0, time.lastIndexOf(' ') - 2).toUpperCase();
+      final timeComponents = time.split(':');
+      final TimeOfDay timeofday = new TimeOfDay(hour: int.parse(timeComponents[0]), minute: int.parse(timeComponents[1]));
+      return timeofday.format(context);
     }
     
     String moonData(String mode) {
