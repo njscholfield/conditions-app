@@ -190,5 +190,8 @@
     <orderEntry type="module" module-name="location_permissions" />
     <orderEntry type="module" module-name="google_api_availability" />
     <orderEntry type="module" module-name="geolocator" />
+    <orderEntry type="module" module-name="location_permissions" />
+    <orderEntry type="module" module-name="google_api_availability" />
+    <orderEntry type="module" module-name="geolocator" />
   </component>
 </module>
