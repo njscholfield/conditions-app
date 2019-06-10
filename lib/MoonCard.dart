@@ -2,10 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:conditions/AstronData.dart';
 
-class MoonCard extends StatelessWidget {
+class MoonCard extends StatefulWidget {
+  MoonCard(this.astronData);
   final AstronData astronData;
 
-  MoonCard(this.astronData);
+  MoonCardState createState() => new MoonCardState();
+}
+
+class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<Color> _animation;
+  
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+
+    _animation = new ColorTween(begin: Colors.blue, end: Colors.white).animate(_controller)..addListener((){
+      setState(() {});
+    });
+    _controller.forward();
+
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(MoonCard oldWidget) {
+    _controller.reset();
+    _controller.forward();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +70,8 @@ class MoonCard extends StatelessWidget {
                     ),
                   ),
                   new Text(
-                    astronData.moonrise,
-                    style: Theme.of(context).textTheme.title,
+                    widget.astronData.moonrise,
+                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
                   ),
                 ]
               ),
@@ -57,8 +92,8 @@ class MoonCard extends StatelessWidget {
                     ),
                   ),
                   new Text(
-                    astronData.moonset,
-                    style: Theme.of(context).textTheme.title,
+                    widget.astronData.moonset,
+                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
                   ),
                 ],
               ),
@@ -66,13 +101,12 @@ class MoonCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   new Text(
-                    astronData.percentFull,
-                    // style: Theme.of(context).textTheme.display1,
+                    widget.astronData.percentFull,
                     style: TextStyle(color: Colors.teal, fontSize: 40)
                   ),
                   new Text(
                     'Full',
-                    style: Theme.of(context).textTheme.title
+                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value)
                   )
                 ],
               ),
@@ -82,7 +116,7 @@ class MoonCard extends StatelessWidget {
             padding: EdgeInsets.only(top: 20.0),
             child: new Text('Closest Phase', style: Theme.of(context).textTheme.headline),
           ),
-          new Text('${astronData.closestPhase}: ${astronData.closestPhaseDate}'),
+          new Text('${widget.astronData.closestPhase}: ${widget.astronData.closestPhaseDate}'),
         ],
       ),
     );
