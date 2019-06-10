@@ -60,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         placemark = await Geolocator().placemarkFromAddress(location);
       } catch (PlatformException) {
-        print(PlatformException.toString());
         setState(() {
           invalidLoc = true;
         });
@@ -86,18 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       return AstronData.fromJson(json.decode(response.body), context);
     } else {
-      print(response.statusCode);
       setState(() {
         invalidLoc = true;
       });
       return null;
     }
-  }
-
-  // Put location name in format for display and passing to AstronData api
-  String placeName(Placemark placemark) {
-    print(placemark.administrativeArea);
-    return '${placemark.locality}, ${placemark.administrativeArea}';
   }
 
   @override
@@ -169,7 +161,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 errorBorder: new OutlineInputBorder(
                   borderSide: invalidLoc ? BorderSide(width: 2, color: Colors.red) : BorderSide(),
                 ),
-                // helperText: invalidLoc ? 'Please enter a valid US location' : '',
                 errorText: invalidLoc ? 'Please enter a valid US location' : null
               ),
             ),
@@ -195,10 +186,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     new MoonCard(snapshot.data),
                   ]
                 );
-              } else {
-                return new Center(
-                  child: new Text('Please enter a location', style: Theme.of(context).textTheme.headline),
+              } else if(snapshot.hasError) {
+                return new Text("${snapshot.error}",
+                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red)
                 );
+              } else {
+                return new Center(child: new CircularProgressIndicator());
               }
             }
           )
