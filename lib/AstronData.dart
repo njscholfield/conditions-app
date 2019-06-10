@@ -47,13 +47,24 @@ class AstronData {
       return time;
     }
 
+    String fracillum() {
+      final Map<String, String> moonphases = {'First Quarter': '50%', 'Full Moon': '100%', 'Last Quarter': '50%', 'New Moon': '0%'};
+
+      if(astronInfo['fracillum'] != null) {
+        print("NULL");
+        return astronInfo['fracillum'];
+      } else {
+        return moonphases[astronInfo['closestphase']['phase']];
+      }
+    }
+
     return AstronData(
       sunrise: cleanTime(sundata[1]['time']),
       sunset: cleanTime(sundata[3]['time']),
       dusk: cleanTime(sundata[4]['time']),
       moonrise: moonData('R'),
       moonset: moonData('S'),
-      percentFull: astronInfo['fracillum'],
+      percentFull: fracillum(),
       closestPhase: astronInfo['closestphase']['phase'],
       closestPhaseDate: '${astronInfo['closestphase']['date']} at ${cleanTime(astronInfo['closestphase']['time'])}'
     );
