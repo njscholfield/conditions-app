@@ -46,7 +46,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
-  bool firstRun;
   bool locUsed;
   bool invalidLoc;
   final TextEditingController locationController = TextEditingController();
@@ -75,8 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final tz = TODAY.timeZoneOffset.inHours;
     locationController.text = placeName;
 
-    final response = await http
-        .get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
+    final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON)
@@ -95,20 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    firstRun = false;
     locUsed = false;
     invalidLoc = false;
     locationController.text = 'Pittsburgh, PA';
     _astronData = fetchInfo(location: 'Pittsburgh, PA');
-  }
-
-  @override
-  void didUpdateWidget(oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Prevent fetchInfo from running twice for page version
-    if(!firstRun) {
-      _astronData = fetchInfo(location: locationController.text);
-    }
   }
 
   @override
