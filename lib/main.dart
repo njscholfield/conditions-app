@@ -170,8 +170,36 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    new SunCard(snapshot.data),
-                    new MoonCard(snapshot.data),
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return new Scaffold(
+                              appBar: AppBar(
+                                title: Text('Sun Details'),
+                              ),
+                              body: SunCard(snapshot.data)
+                            );
+                          },
+                        ));
+                      },
+                      child: new SunCard(snapshot.data),
+                    ),
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return new Scaffold(
+                              appBar: AppBar(
+                                title: Text('Moon Details'),
+                              ),
+                              body: MoonCard(snapshot.data)
+                            );
+                          },
+                        ));
+                      },
+                      child: new MoonCard(snapshot.data),
+                    ),
                   ]
                 );
               } else if(snapshot.hasError) {
