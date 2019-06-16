@@ -51,7 +51,6 @@ class AstronData {
       final Map<String, String> moonphases = {'First Quarter': '50%', 'Full Moon': '100%', 'Last Quarter': '50%', 'New Moon': '0%'};
 
       if(astronInfo['fracillum'] != null) {
-        print("NULL");
         return astronInfo['fracillum'];
       } else {
         return moonphases[astronInfo['closestphase']['phase']];
