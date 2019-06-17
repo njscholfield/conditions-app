@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:conditions/SunCard.dart';
 import 'package:conditions/MoonCard.dart';
 import 'package:conditions/LocationField.dart';
+import 'package:conditions/About.dart';
 
 import 'package:conditions/AstronData.dart';
 
@@ -23,7 +24,14 @@ class MyApp extends StatelessWidget {
           ),
           display1: TextStyle(
             color: Colors.white,
-          )
+          ),
+          body1: TextStyle(
+            fontSize: 16.0
+          ),
+          body2: TextStyle(
+            fontSize: 16.0,
+            decoration: TextDecoration.underline
+          ),
         ),
       ),
       home: MyHomePage(title: 'Conditions'),
@@ -105,6 +113,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: new MoonCard(snapshot.data),
                     ),
+                    new GestureDetector(
+                      child: Text('About this app',
+                        style: Theme.of(context).textTheme.body1.copyWith(decoration: TextDecoration.underline)
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return new About();
+                          },
+                        ));
+                      },
+                    )
                   ]
                 );
               } else if(snapshot.hasError) {
