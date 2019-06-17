@@ -1,13 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:conditions/SunCard.dart';
 import 'package:conditions/MoonCard.dart';
+import 'package:conditions/LocationField.dart';
 
 import 'package:conditions/AstronData.dart';
 
@@ -46,64 +42,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
-  bool locUsed;
-  bool invalidLoc;
-  final TextEditingController locationController = TextEditingController();
-  Geolocator geolocator = Geolocator();
 
-  Future<AstronData> fetchInfo({Position coords, String location}) async {
-    List<Placemark> placemark;
-    if(coords != null) {
-      placemark = await Geolocator().placemarkFromCoordinates(coords.latitude, coords.longitude);
-    } else {
-      try {
-        placemark = await Geolocator().placemarkFromAddress(location);
-      } catch (PlatformException) {
-        setState(() {
-          invalidLoc = true;
-        });
-        return null;
-      }
-      coords = placemark[0].position;
-    }
-
-    final DateTime TODAY = DateTime.now();
-    final String today = DateFormat.yMd().format(TODAY);
-    final String placeName = '${placemark[0].locality}, ${placemark[0].administrativeArea}';
-    final String coordsStr = '${coords.latitude},${coords.longitude}';
-    final tz = TODAY.timeZoneOffset.inHours;
-    locationController.text = placeName;
-
-    final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
-
-    if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON)
-      setState(() {
-        invalidLoc = false;
-      });
-      return AstronData.fromJson(json.decode(response.body), context);
-    } else {
-      setState(() {
-        invalidLoc = true;
-      });
-      return null;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    locUsed = false;
-    invalidLoc = false;
-    locationController.text = 'Pittsburgh, PA';
-    _astronData = fetchInfo(location: 'Pittsburgh, PA');
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    locationController.dispose();
-    super.dispose();
+  void callback(Future<AstronData> newAstronData) {
+    setState(() {
+       _astronData = newAstronData;
+    });
   }
 
   @override
@@ -114,45 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          new Container(
-            margin: EdgeInsets.all(10.0),
-            child: new TextField(
-              controller: locationController,
-              onSubmitted: (value) {
-                setState(() {
-                  locUsed = false;
-                  _astronData = fetchInfo(location: value);
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Enter a location',
-                prefix: new IconButton(
-                  icon: new Icon(FontAwesomeIcons.locationArrow, color: locUsed ? Colors.blueAccent[700] : Colors.grey),
-                  onPressed: () async {
-                    final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
-                    setState(() {
-                      locUsed = true;
-                      _astronData = fetchInfo(coords: currentLocation);
-                    });
-                  },
-                ),
-                suffix: new IconButton(
-                  icon: new Icon(FontAwesomeIcons.search),
-                  onPressed: () {
-                    setState(() {
-                      locUsed = false;
-                      _astronData = fetchInfo(location: locationController.text);
-                    });
-                    FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
-                  },
-                ),
-                errorBorder: new OutlineInputBorder(
-                  borderSide: invalidLoc ? BorderSide(width: 2, color: Colors.red) : BorderSide(),
-                ),
-                errorText: invalidLoc ? 'Please enter a valid US location' : null
-              ),
-            ),
-          ),
+          new LocationField(callback),
           new FutureBuilder<AstronData>(
             future: _astronData,
             builder: (context, snapshot) {
@@ -207,7 +112,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red)
                 );
               } else {
-                return new Center(child: new CircularProgressIndicator());
+                return new Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: new Text('Enter a location to see the conditions there', 
+                    style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black)
+                  )
+                );
               }
             }
           )
