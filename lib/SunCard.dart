@@ -30,8 +30,10 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
 
   @override
   void didUpdateWidget(SunCard oldWidget) {
-    _controller.reset();
-    _controller.forward();
+    if(oldWidget.astronData != widget.astronData) {
+      _controller.reset();
+      _controller.forward();
+    }
     super.didUpdateWidget(oldWidget);
   }
 

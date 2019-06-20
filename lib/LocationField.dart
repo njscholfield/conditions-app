@@ -64,7 +64,6 @@ class _LocationFieldState extends State<LocationField> {
     locUsed = false;
     invalidLoc = false;
     locationController.text = 'Pittsburgh, PA';
-    // widget.callback(fetchInfo(location: 'Pittsburgh, PA'));
     super.initState();
   }
 

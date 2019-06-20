@@ -30,8 +30,10 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
 
   @override
   void didUpdateWidget(MoonCard oldWidget) {
-    _controller.reset();
-    _controller.forward();
+    if(oldWidget.astronData != widget.astronData) {
+      _controller.reset();
+      _controller.forward();
+    }
     super.didUpdateWidget(oldWidget);
   }
 
