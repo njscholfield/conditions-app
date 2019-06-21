@@ -46,7 +46,10 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: new BoxDecoration(color: Colors.green[300]),
+      decoration: new BoxDecoration(
+        color: Colors.green[300],
+        borderRadius: new BorderRadius.all(new Radius.circular(10.0))
+      ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(20.0),
       child: Column(

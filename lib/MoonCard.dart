@@ -47,7 +47,10 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: new BoxDecoration(color: Colors.blue[200]),
+      decoration: new BoxDecoration(
+        color: Colors.blue[200],
+        borderRadius: new BorderRadius.all(new Radius.circular(10.0))
+      ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
       child: Column(
