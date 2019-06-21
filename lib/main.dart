@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
 
+import 'package:conditions/DarkSky.dart';
 import 'package:conditions/SunCard.dart';
 import 'package:conditions/MoonCard.dart';
 import 'package:conditions/LocationField.dart';
@@ -50,10 +52,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
+  Position _coords;
 
-  void callback(Future<AstronData> newAstronData) {
+  void updateAstronData(Future<AstronData> newAstronData) {
     setState(() {
-       _astronData = newAstronData;
+      _astronData = newAstronData;
+    });
+  }
+
+  void updateCoords(Position newCoords) {
+    setState(() {
+      _coords = newCoords;
     });
   }
 
@@ -65,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          new LocationField(callback),
+          new LocationField(updateAstronData, updateCoords),
           new FutureBuilder<AstronData>(
             future: _astronData,
             builder: (context, snapshot) {
@@ -83,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
+                    new DarkSky(_coords),
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(

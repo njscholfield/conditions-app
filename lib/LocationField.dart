@@ -8,9 +8,10 @@ import 'package:intl/intl.dart';
 import 'package:conditions/AstronData.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.callback);
+  LocationField(this.updateAstronData, this.updateCoords);
 
-  final Function(Future<AstronData>) callback;
+  final Function(Future<AstronData>) updateAstronData;
+  final Function(Position) updateCoords;
   _LocationFieldState createState() => new _LocationFieldState();
 }
 
@@ -35,10 +36,14 @@ class _LocationFieldState extends State<LocationField> {
       }
       coords = placemark[0].position;
     }
+    widget.updateCoords(coords);
+    return await callAPIs(coords, placemark[0]);
+  }
 
+  Future<AstronData> callAPIs(Position coords, Placemark placemark) async {
     final DateTime todayObj = DateTime.now();
     final String today = DateFormat.yMd().format(todayObj);
-    final String placeName = '${placemark[0].locality}, ${placemark[0].administrativeArea}';
+    final String placeName = '${placemark.locality}, ${placemark.administrativeArea}';
     final String coordsStr = '${coords.latitude},${coords.longitude}';
     final tz = todayObj.timeZoneOffset.inHours;
     locationController.text = placeName;
@@ -46,7 +51,6 @@ class _LocationFieldState extends State<LocationField> {
     final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');  
 
     if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON)
       setState(() {
         invalidLoc = false;
       });
@@ -83,7 +87,7 @@ class _LocationFieldState extends State<LocationField> {
         onSubmitted: (value) {
           setState(() {
             locUsed = false;
-            widget.callback(fetchInfo(location: value));
+            widget.updateAstronData(fetchInfo(location: value));
           });
         },
         decoration: InputDecoration(
@@ -94,7 +98,7 @@ class _LocationFieldState extends State<LocationField> {
               final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
               setState(() {
                 locUsed = true;
-                widget.callback(fetchInfo(coords: currentLocation));
+                widget.updateAstronData(fetchInfo(coords: currentLocation));
               });
             },
           ),
@@ -103,7 +107,7 @@ class _LocationFieldState extends State<LocationField> {
             onPressed: () {
               setState(() {
                 locUsed = false;
-                widget.callback(fetchInfo(location: locationController.text));
+                widget.updateAstronData(fetchInfo(location: locationController.text));
               });
               FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
             },
