@@ -49,8 +49,8 @@ class DarkSkyState extends State<DarkSky> {
       ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(20.0),
-      // color: Color.fromRGBO(228, 87, 46, .95),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new FutureBuilder<Forecast>(
             future: _forecast,

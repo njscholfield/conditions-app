@@ -92,7 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    new DarkSky(_coords),
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return new Scaffold(
+                              appBar: AppBar(
+                                title: Text('Weather Details'),
+                              ),
+                              body: DarkSky(_coords)
+                            );
+                          },
+                        ));
+                      },
+                      child: new DarkSky(_coords),
+                    ),
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
