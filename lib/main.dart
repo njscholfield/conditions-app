@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     new Container(
                       margin: EdgeInsets.all(10.0),
                       child: new Text(
-                        DateFormat.yMMMMEEEEd().format(new DateTime.now()),
+                        'Updated: ${DateFormat.MMMMEEEEd().add_jm().format(new DateTime.now())}',
                         style: Theme.of(context).textTheme.subhead.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
