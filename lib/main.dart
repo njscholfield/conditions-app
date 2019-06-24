@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
-import 'package:conditions/DarkSky.dart';
-import 'package:conditions/SunCard.dart';
-import 'package:conditions/MoonCard.dart';
-import 'package:conditions/LocationField.dart';
-import 'package:conditions/About.dart';
+import 'package:conditions/components/DarkSky.dart';
+import 'package:conditions/components/SunCard.dart';
+import 'package:conditions/components/MoonCard.dart';
+import 'package:conditions/components/LocationField.dart';
+import 'package:conditions/components/About.dart';
 
-import 'package:conditions/AstronData.dart';
+import 'package:conditions/models/AstronData.dart';
 
 void main() => runApp(MyApp());
 

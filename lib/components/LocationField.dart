@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:conditions/AstronData.dart';
+import 'package:conditions/models/AstronData.dart';
 
 class LocationField extends StatefulWidget {
   LocationField(this.updateAstronData, this.updateDarkSkyData);

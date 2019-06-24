@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:conditions/ClickableLink.dart';
+import 'package:conditions/components/ClickableLink.dart';
 
 class About extends StatelessWidget {
 

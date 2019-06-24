@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
-import 'package:conditions/ClickableLink.dart';
+import 'package:conditions/components/ClickableLink.dart';
 
 class DarkSky extends StatelessWidget {
   DarkSky(this._forecast);
