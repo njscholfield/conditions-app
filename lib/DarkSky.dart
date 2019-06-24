@@ -1,44 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
-class DarkSky extends StatefulWidget {
-  DarkSky(this.coords);
-  final Position coords;
+import 'package:conditions/ClickableLink.dart';
 
-  DarkSkyState createState() => new DarkSkyState();
-}
-
-class DarkSkyState extends State<DarkSky> {
-  Future<Forecast> _forecast;
-
-  Future<Forecast> getForecast() async {
-    var darksky = new DarkSkyWeather("fbf37604c9e43f23cfec01e137f2004f",
-      language: Language.English, units: Units.SI);
-    var forecast = await darksky.getForecast(widget.coords.latitude, widget.coords.longitude);
-
-    return forecast;
-  }
-
-  @override
-  void initState() {
-    if(widget.coords != null) {
-      setState(() {
-        _forecast = getForecast();
-      });
-    }
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(DarkSky oldWidget) {
-    if(widget.coords != null && widget.coords != oldWidget.coords) {
-      setState(() {
-        _forecast = getForecast();
-      });
-    }
-    super.didUpdateWidget(oldWidget);
-  }
+class DarkSky extends StatelessWidget {
+  DarkSky(this._forecast);
+  final Future<Forecast> _forecast;
   
   @override
   Widget build(BuildContext context) {
@@ -86,11 +53,23 @@ class DarkSkyState extends State<DarkSky> {
                     new Divider(color: Colors.white),
                     new Text('Next Hour: ${snapshot.data.minutely.summary}',
                       style: Theme.of(context).textTheme.title,
+                    ),
+                    new Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: new ClickableLink(
+                        url: 'https://darksky.net/poweredby/',
+                        child: new Text('Powered by Dark Sky',
+                          style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     )
                   ]
                 );
               } else {
-                return new Text('Waiting for weather data...');
+                return Center(
+                  child: new Text('Waiting for weather data...')
+                );
               }
             }
           ),

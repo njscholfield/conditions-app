@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:darksky_weather/darksky_weather_io.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:conditions/AstronData.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateAstronData, this.updateCoords);
+  LocationField(this.updateAstronData, this.updateDarkSkyData);
 
   final Function(Future<AstronData>) updateAstronData;
-  final Function(Position) updateCoords;
+  final Function(Future<Forecast>) updateDarkSkyData;
   _LocationFieldState createState() => new _LocationFieldState();
 }
 
@@ -20,8 +23,22 @@ class _LocationFieldState extends State<LocationField> {
   final TextEditingController locationController = TextEditingController();
   Geolocator geolocator = Geolocator();
   bool invalidLoc;
+  String _darkSkyKey;
 
-  Future<AstronData> fetchInfo({Position coords, String location}) async {
+  // Load in the Dark Sky API Key from the config file
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/config.json');
+  }
+
+  // Assign key to variable
+  _LocationFieldState() {
+    loadAsset().then((val) => setState(() {
+        _darkSkyKey = jsonDecode(val)['dark_sky_key'];
+      })
+    );
+  }
+
+  void fetchInfo({Position coords, String location}) async {
     List<Placemark> placemark;
     if(coords != null) {
       placemark = await Geolocator().placemarkFromCoordinates(coords.latitude, coords.longitude);
@@ -32,15 +49,17 @@ class _LocationFieldState extends State<LocationField> {
         setState(() {
           invalidLoc = true;
         });
+        widget.updateAstronData(Future<AstronData>.value(null));
+        widget.updateDarkSkyData(Future<Forecast>.value(null));
         return null;
       }
       coords = placemark[0].position;
     }
-    widget.updateCoords(coords);
-    return await callAPIs(coords, placemark[0]);
+    widget.updateAstronData(callAstronAPI(coords, placemark[0]));
+    widget.updateDarkSkyData(callDarkSkyAPI(coords));
   }
 
-  Future<AstronData> callAPIs(Position coords, Placemark placemark) async {
+  Future<AstronData> callAstronAPI(Position coords, Placemark placemark) async {
     final DateTime todayObj = DateTime.now();
     final String today = DateFormat.yMd().format(todayObj);
     final String placeName = '${placemark.locality}, ${placemark.administrativeArea}';
@@ -61,6 +80,14 @@ class _LocationFieldState extends State<LocationField> {
       });
       return null;
     }
+  }
+
+  Future<Forecast> callDarkSkyAPI(Position coords) async {
+    var darksky = new DarkSkyWeather(_darkSkyKey,
+      language: Language.English, units: Units.SI);
+    var forecast = await darksky.getForecast(coords.latitude, coords.longitude);
+
+    return forecast;
   }
 
   @override
@@ -87,8 +114,8 @@ class _LocationFieldState extends State<LocationField> {
         onSubmitted: (value) {
           setState(() {
             locUsed = false;
-            widget.updateAstronData(fetchInfo(location: value));
           });
+          fetchInfo(location: value);
         },
         decoration: InputDecoration(
           labelText: 'Enter a location',
@@ -98,8 +125,8 @@ class _LocationFieldState extends State<LocationField> {
               final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
               setState(() {
                 locUsed = true;
-                widget.updateAstronData(fetchInfo(coords: currentLocation));
               });
+              fetchInfo(coords:currentLocation);
             },
           ),
           suffix: new IconButton(
@@ -107,8 +134,8 @@ class _LocationFieldState extends State<LocationField> {
             onPressed: () {
               setState(() {
                 locUsed = false;
-                widget.updateAstronData(fetchInfo(location: locationController.text));
               });
+              fetchInfo(location: locationController.text);
               FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
             },
           ),

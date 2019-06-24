@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:darksky_weather/darksky_weather_io.dart';
 
 import 'package:conditions/DarkSky.dart';
 import 'package:conditions/SunCard.dart';
@@ -52,7 +52,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
-  Position _coords;
+  Future<Forecast> _darkSky;
 
   void updateAstronData(Future<AstronData> newAstronData) {
     setState(() {
@@ -60,9 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void updateCoords(Position newCoords) {
+  void updateDarkSkyData(Future<Forecast> newDarkSky) {
     setState(() {
-      _coords = newCoords;
+      _darkSky = newDarkSky;
     });
   }
 
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          new LocationField(updateAstronData, updateCoords),
+          new LocationField(updateAstronData, updateDarkSkyData),
           new FutureBuilder<AstronData>(
             future: _astronData,
             builder: (context, snapshot) {
@@ -100,12 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               appBar: AppBar(
                                 title: Text('Weather Details'),
                               ),
-                              body: DarkSky(_coords)
+                              body: DarkSky(_darkSky)
                             );
                           },
                         ));
                       },
-                      child: new DarkSky(_coords),
+                      child: new DarkSky(_darkSky),
                     ),
                     new GestureDetector(
                       onTap: () {
