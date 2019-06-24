@@ -86,7 +86,6 @@ class _LocationFieldState extends State<LocationField> {
     var darksky = new DarkSkyWeather(_darkSkyKey,
       language: Language.English, units: Units.SI);
     var forecast = await darksky.getForecast(coords.latitude, coords.longitude);
-
     return forecast;
   }
 

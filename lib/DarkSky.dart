@@ -66,6 +66,10 @@ class DarkSky extends StatelessWidget {
                     )
                   ]
                 );
+              } else if(snapshot.hasError) {
+                return Center(
+                  child: new Text('Error loading weather data')
+                );
               } else {
                 return Center(
                   child: new Text('Waiting for weather data...')
