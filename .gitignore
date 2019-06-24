@@ -16,3 +16,4 @@ doc/api/
 .vscode
 *.log
 *.zip
+assets/config.json
