@@ -90,15 +90,18 @@ class DarkSkyExpanded extends StatelessWidget {
                             ),
                             new Column(
                               children: <Widget>[
-                                Row(
+                                new Row(
                                   children: <Widget>[
                                     new Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(right: 8.0),
                                       child: new Icon(FontAwesomeIcons.wind, color: Colors.white),
                                     ),
-                                    new Text('${snapshot.data.currently.windSpeed}',
+                                    new Text('${snapshot.data.currently.windSpeed.round()}',
                                       style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300]),
                                     ),
+                                    new Text(' m/s',
+                                      style: Theme.of(context).textTheme.body1.copyWith(color: Colors.cyan)
+                                    )
                                   ],
                                 ),
                                 new Text('Wind Speed',
@@ -111,7 +114,7 @@ class DarkSkyExpanded extends StatelessWidget {
                                 new Row(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.all(10.0),
+                                      padding: const EdgeInsets.only(right: 12.0),
                                       child: new Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
                                     ),
                                     new Text('${(snapshot.data.currently.cloudCover * 100).round()}%',
