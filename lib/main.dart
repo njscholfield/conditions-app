@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
 import 'package:conditions/components/DarkSky.dart';
+import 'package:conditions/components/DarkSkyExpanded.dart';
 import 'package:conditions/components/SunCard.dart';
 import 'package:conditions/components/MoonCard.dart';
 import 'package:conditions/components/LocationField.dart';
@@ -96,12 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return new Scaffold(
-                              appBar: AppBar(
-                                title: Text('Weather Details'),
-                              ),
-                              body: DarkSky(_darkSky)
-                            );
+                            return new DarkSkyExpanded(_darkSky);
                           },
                         ));
                       },

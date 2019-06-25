@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
 import 'package:conditions/components/ClickableLink.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DarkSky extends StatelessWidget {
   DarkSky(this._forecast);
@@ -30,8 +31,13 @@ class DarkSky extends StatelessWidget {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            new Text(snapshot.data.currently.temperature.round().toString() + 'º',
-                              style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                            new Row(
+                              children: <Widget>[
+                                new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
+                                new Text(snapshot.data.currently.temperature.round().toString() + 'º',
+                                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                                ),
+                              ],
                             ),
                             new Text(snapshot.data.currently.summary,
                               style: Theme.of(context).textTheme.title
@@ -40,10 +46,18 @@ class DarkSky extends StatelessWidget {
                         ),
                         new Column(
                           children: <Widget>[
-                            new Text('${(snapshot.data.currently.precipProbability * 100).round()}%',
-                              style: TextStyle(color: Colors.blue[200], fontSize: 40)
+                            new Row(
+                              children: <Widget>[
+                                new Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
+                                ),
+                                new Text('${(snapshot.data.currently.precipProbability * 100).round()}%',
+                                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
+                                ),
+                              ],
                             ),
-                            new Text('Precip',
+                            new Text('Precipitation',
                               style: Theme.of(context).textTheme.title,
                             )
                           ],
