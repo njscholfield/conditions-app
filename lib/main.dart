@@ -79,7 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
           new FutureBuilder<AstronData>(
             future: _astronData,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: new CircularProgressIndicator());
+              } else if (snapshot.hasData) {
                 return new Column(
                   children: <Widget>[
                     new Container(

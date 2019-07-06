@@ -98,7 +98,8 @@ class DarkSky extends StatelessWidget {
                 );
               } else {
                 return Center(
-                  child: new Text('Waiting for weather data...')
+                  // child: new Text('Waiting for weather data...')
+                  child: CircularProgressIndicator()
                 );
               }
             }
