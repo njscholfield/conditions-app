@@ -33,38 +33,49 @@ class DarkSkyExpanded extends StatelessWidget {
                       new Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          new Column(
-                            children: <Widget>[
-                              new Row(
-                                children: <Widget>[
-                                  new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
-                                  new Text(snapshot.data.currently.temperature.round().toString() + 'º',
-                                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
-                                  ),
-                                ],
-                              ),
-                              new Text(snapshot.data.currently.summary,
-                                style: Theme.of(context).textTheme.title
-                              )
-                            ],
+                          new Flexible(
+                            fit: FlexFit.loose,
+                            flex: 1,
+                            child: new Column(
+                              children: <Widget>[
+                                new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
+                                    new Text(snapshot.data.currently.temperature.round().toString() + 'º',
+                                      style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                                    ),
+                                  ],
+                                ),
+                                new Text(snapshot.data.currently.summary,
+                                  style: Theme.of(context).textTheme.title,
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
                           ),
-                          new Column(
-                            children: <Widget>[
-                              new Row(
-                                children: <Widget>[
-                                  new Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: new Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
-                                  ),
-                                  new Text('${(snapshot.data.currently.precipProbability * 100).round()}%',
-                                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
-                                  ),
-                                ],
-                              ),
-                              new Text('Precipitation',
-                                style: Theme.of(context).textTheme.title,
-                              )
-                            ],
+                          new Flexible(
+                            fit: FlexFit.loose,
+                            flex: 1,
+                            child: new Column(
+                              children: <Widget>[
+                                new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: new Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
+                                    ),
+                                    new Text('${(snapshot.data.currently.precipProbability * 100).round()}%',
+                                      style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
+                                    ),
+                                  ],
+                                ),
+                                new Text('Precipitation',
+                                  style: Theme.of(context).textTheme.title,
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
