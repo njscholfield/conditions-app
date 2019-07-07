@@ -10,7 +10,7 @@ class SettingsState extends State<Settings> {
 
   void fetchCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int unit = (prefs.getInt('unit') ?? 0);
+    int unit = (prefs.getInt('unit') ?? 3);
     setState(() {
       dropdownValue = unit;
     });

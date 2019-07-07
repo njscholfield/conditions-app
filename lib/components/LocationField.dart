@@ -86,7 +86,7 @@ class _LocationFieldState extends State<LocationField> {
 
   Future<Forecast> callDarkSkyAPI(Position coords) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int unitIdx = (prefs.getInt('unit') ?? 0);
+    int unitIdx = (prefs.getInt('unit') ?? 3);
     widget.updateUnitIdx(unitIdx);
     var darksky = new DarkSkyWeather(_darkSkyKey,
       language: Language.English, units: Units.values[unitIdx]);
