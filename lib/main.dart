@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
@@ -8,6 +9,7 @@ import 'package:conditions/components/SunCard.dart';
 import 'package:conditions/components/MoonCard.dart';
 import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
+import 'package:conditions/components/Settings.dart';
 
 import 'package:conditions/models/AstronData.dart';
 
@@ -54,6 +56,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<AstronData> _astronData;
   Future<Forecast> _darkSky;
+  int _unitIdx;
 
   void updateAstronData(Future<AstronData> newAstronData) {
     setState(() {
@@ -67,15 +70,33 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void updateUnitIdx(int newUnitIdx) {
+    setState(() {
+      _unitIdx = newUnitIdx;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.cog),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return new Settings();
+                },
+              ));
+            },
+          )
+        ],
       ),
       body: ListView(
         children: <Widget>[
-          new LocationField(updateAstronData, updateDarkSkyData),
+          new LocationField(updateAstronData, updateDarkSkyData, updateUnitIdx),
           new FutureBuilder<AstronData>(
             future: _astronData,
             builder: (context, snapshot) {
@@ -99,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return new DarkSkyExpanded(_darkSky);
+                            return new DarkSkyExpanded(_darkSky, _unitIdx);
                           },
                         ));
                       },

@@ -6,15 +6,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:conditions/models/AstronData.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateAstronData, this.updateDarkSkyData);
+  LocationField(this.updateAstronData, this.updateDarkSkyData, this.updateUnitIdx);
 
   final Function(Future<AstronData>) updateAstronData;
   final Function(Future<Forecast>) updateDarkSkyData;
+  final Function(int) updateUnitIdx;
   _LocationFieldState createState() => new _LocationFieldState();
 }
 
@@ -83,8 +85,11 @@ class _LocationFieldState extends State<LocationField> {
   }
 
   Future<Forecast> callDarkSkyAPI(Position coords) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int unitIdx = (prefs.getInt('unit') ?? 0);
+    widget.updateUnitIdx(unitIdx);
     var darksky = new DarkSkyWeather(_darkSkyKey,
-      language: Language.English, units: Units.SI);
+      language: Language.English, units: Units.values[unitIdx]);
     var forecast = await darksky.getForecast(coords.latitude, coords.longitude);
     return forecast;
   }

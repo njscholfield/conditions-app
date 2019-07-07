@@ -29,6 +29,7 @@ dependencies:
   intl: ^0.15.8
   url_launcher: ^5.0.3
   darksky_weather: ^1.2.0
+  shared_preferences: ^0.5.3+1
 
 dev_dependencies:
   flutter_test:

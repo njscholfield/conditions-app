@@ -5,8 +5,10 @@ import 'package:conditions/components/ClickableLink.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DarkSkyExpanded extends StatelessWidget {
-  DarkSkyExpanded(this._forecast);
+  DarkSkyExpanded(this._forecast, this.unitIdx);
   final Future<Forecast> _forecast;
+  final int unitIdx;
+  final List<String> windLabels = ['', 'kph', 'mph', 'mph', 'm/s'];
   
   @override
   Widget build(BuildContext context) {
@@ -110,7 +112,7 @@ class DarkSkyExpanded extends StatelessWidget {
                                     new Text('${snapshot.data.currently.windSpeed.round()}',
                                       style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300]),
                                     ),
-                                    new Text(' m/s',
+                                    new Text(windLabels[unitIdx],
                                       style: Theme.of(context).textTheme.body1.copyWith(color: Colors.cyan)
                                     )
                                   ],
@@ -154,7 +156,7 @@ class DarkSkyExpanded extends StatelessWidget {
                             textAlign: TextAlign.right,
                           ),
                         ),
-                      )
+                      ),
                     ]
                   );
                 } else if(snapshot.hasError) {
