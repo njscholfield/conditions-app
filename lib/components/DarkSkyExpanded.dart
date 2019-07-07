@@ -44,7 +44,7 @@ class DarkSkyExpanded extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
-                                    new Text(snapshot.data.currently.temperature.round().toString() + 'º',
+                                    new Text('${snapshot.data.currently.temperature.round()}º',
                                       style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
                                     ),
                                   ],
