@@ -6,6 +6,7 @@
 #import <geolocator/GeolocatorPlugin.h>
 #import <google_api_availability/GoogleApiAvailabilityPlugin.h>
 #import <location_permissions/LocationPermissionsPlugin.h>
+#import <shared_preferences/SharedPreferencesPlugin.h>
 #import <url_launcher/UrlLauncherPlugin.h>
 
 @implementation GeneratedPluginRegistrant
@@ -14,6 +15,7 @@
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [GoogleApiAvailabilityPlugin registerWithRegistrar:[registry registrarForPlugin:@"GoogleApiAvailabilityPlugin"]];
   [LocationPermissionsPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPermissionsPlugin"]];
+  [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [FLTUrlLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTUrlLauncherPlugin"]];
 }
 

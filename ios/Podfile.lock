@@ -6,6 +6,8 @@ PODS:
     - Flutter
   - location_permissions (2.0.1):
     - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
@@ -14,6 +16,7 @@ DEPENDENCIES:
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 EXTERNAL SOURCES:
@@ -25,6 +28,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_api_availability/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -33,6 +38,7 @@ SPEC CHECKSUMS:
   geolocator: 72bbbbb02210448315d79c4e5158cc04e111a62c
   google_api_availability: 163b30f802e6148c67f092aa4501c90ddd8eec8d
   location_permissions: db47e77cf4f1359866d627523fb7812899a752f3
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
