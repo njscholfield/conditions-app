@@ -60,6 +60,7 @@ class SettingsState extends State<Settings> {
               new RaisedButton(
                 onPressed: () {
                   setUnit(dropdownValue);
+                  Navigator.pop(context);
                 },
                 child: Text('Save', style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
