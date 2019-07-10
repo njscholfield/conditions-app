@@ -131,6 +131,7 @@ class _LocationFieldState extends State<LocationField> {
                 locUsed = true;
               });
               fetchInfo(coords:currentLocation);
+              FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
             },
           ),
           suffix: new IconButton(
