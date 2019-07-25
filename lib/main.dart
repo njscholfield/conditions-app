@@ -171,8 +171,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ]
                 );
               } else if(snapshot.hasError) {
-                return new Text("${snapshot.error}",
-                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red)
+                return Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text('Error fetching condition information, please try again',
+                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red)
+                  ),
                 );
               } else {
                 return new Container(
