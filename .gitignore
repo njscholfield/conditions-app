@@ -18,3 +18,4 @@ doc/api/
 *.zip
 assets/config.json
 ios/Flutter/App.framework/flutter_assets/assets/config.json
+.DS_Store
