@@ -30,10 +30,16 @@ class About extends StatelessWidget {
               child: new Text('API Documentation', style: Theme.of(context).textTheme.body2)
             ),
             new Spacer(),
+            new Text('Weather data is provided by Dark Sky', style: Theme.of(context).textTheme.headline),
+            new ClickableLink(
+              url: 'https://darksky.net/dev',
+              child: new Text('Dark Sky API', style: Theme.of(context).textTheme.body2)
+            ),
+            new Spacer(),
             new Text('Built using Flutter', style: Theme.of(context).textTheme.headline,),
             new ClickableLink(
-              url: 'https://flutter.io',
-              child: Text('flutter.io', style: Theme.of(context).textTheme.body2)
+              url: 'https://flutter.dev',
+              child: Text('flutter.dev', style: Theme.of(context).textTheme.body2)
             ),
             new Spacer(),
             new Text('Copyright © 2019 Noah Scholfield', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.green)),
