@@ -70,7 +70,10 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                           color: Colors.yellow[600],
                           size: 40
                         ),
-                        new Icon(FontAwesomeIcons.longArrowAltUp),
+                        new Icon(
+                          FontAwesomeIcons.longArrowAltUp,
+                          color: Colors.black
+                        ),
                       ]
                     ),
                   ),
@@ -92,7 +95,10 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                           color: Colors.yellow[800],
                           size: 40,
                         ),
-                        new Icon(FontAwesomeIcons.longArrowAltDown),
+                        new Icon(
+                          FontAwesomeIcons.longArrowAltDown,
+                          color: Colors.black
+                        ),
                       ],
                     ),
                   ),

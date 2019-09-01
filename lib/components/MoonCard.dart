@@ -71,7 +71,10 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
                           color: Colors.blueGrey[600],
                           size: 40
                         ),
-                        new Icon(FontAwesomeIcons.longArrowAltUp),
+                        new Icon(
+                          FontAwesomeIcons.longArrowAltUp,
+                          color: Colors.black
+                        ),
                       ]
                     ),
                   ),
@@ -93,7 +96,10 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
                           color: Colors.blueGrey[600],
                           size: 40,
                         ),
-                        new Icon(FontAwesomeIcons.longArrowAltDown),
+                        new Icon(
+                          FontAwesomeIcons.longArrowAltDown,
+                          color: Colors.black
+                        ),
                       ],
                     ),
                   ),
@@ -120,9 +126,9 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
           ),
           new Padding(
             padding: EdgeInsets.only(top: 20.0),
-            child: new Text('Closest Phase', style: Theme.of(context).textTheme.headline),
+            child: new Text('Closest Phase', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black)),
           ),
-          new Text('${widget.astronData.closestPhase}: ${widget.astronData.closestPhaseDate}'),
+          new Text('${widget.astronData.closestPhase}: ${widget.astronData.closestPhaseDate}', style: TextStyle(color: Colors.black)),
         ],
       ),
     );

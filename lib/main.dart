@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Conditions',
       theme: ThemeData(
+        brightness: Brightness.light,
         primaryColor: Colors.grey[800],
         textTheme: TextTheme(
           title: TextStyle(
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
           ),
           display1: TextStyle(
             color: Colors.white,
+          ),
+          headline: TextStyle(
+            color: Colors.black,
           ),
           body1: TextStyle(
             fontSize: 16.0
@@ -38,6 +42,15 @@ class MyApp extends StatelessWidget {
             decoration: TextDecoration.underline
           ),
         ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        textTheme: TextTheme(
+          body2: TextStyle(
+            fontSize: 16.0,
+            decoration: TextDecoration.underline
+          )
+        )
       ),
       home: MyHomePage(title: 'Conditions'),
     );
@@ -181,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return new Container(
                   margin: EdgeInsets.all(10.0),
                   child: new Text('Enter a location to see the conditions there', 
-                    style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black)
+                    style: Theme.of(context).textTheme.headline
                   )
                 );
               }
