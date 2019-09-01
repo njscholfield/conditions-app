@@ -11,7 +11,6 @@ doc/api/
 .vscode
 *.log
 *.zip
-assets/config.json
 ios/Flutter/App.framework/flutter_assets/assets/config.json
 .DS_Store
 
