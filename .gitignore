@@ -72,3 +72,4 @@ build/
 
 # End of https://www.gitignore.io/api/flutter
 ios/Flutter/Flutter.framework/Flutter
+ios/Flutter/flutter_export_environment.sh
