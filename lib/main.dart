@@ -110,13 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: <Widget>[
           new LocationField(updateAstronData, updateDarkSkyData, updateUnitIdx),
-          new FutureBuilder<AstronData>(
-            future: _astronData,
+          new FutureBuilder<Forecast>(
+            future: _darkSky,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: new CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                return new Column(
+                return new Container();
+              } else if(snapshot.hasData) {
+                return Column(
                   children: <Widget>[
                     new Container(
                       margin: EdgeInsets.all(10.0),
@@ -126,19 +126,44 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
                         ),
-                        textAlign: TextAlign.left,
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return new DarkSkyExpanded(_darkSky, _unitIdx);
+                            return new DarkSkyExpanded(snapshot.data, _unitIdx);
                           },
                         ));
                       },
-                      child: new DarkSky(_darkSky),
+                      child: new DarkSky(snapshot.data),
                     ),
+                  ],
+                );
+              } else if(snapshot.hasError) {
+                return Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      new Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      new Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red))
+                    ],
+                  ),
+                );
+              } else {
+                return new Container();
+              }
+            }
+          ),
+          new FutureBuilder<AstronData>(
+            future: _astronData,
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return Container(child: Center(child: new CircularProgressIndicator()));
+              } else if (snapshot.hasData) {
+                return new Column(
+                  children: <Widget>[
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
@@ -186,8 +211,13 @@ class _MyHomePageState extends State<MyHomePage> {
               } else if(snapshot.hasError) {
                 return Container(
                   padding: EdgeInsets.all(10.0),
-                  child: new Text('Error fetching condition information, please try again',
-                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red)
+                  child: Column(
+                    children: <Widget>[
+                      new Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      new Text('Error loading astronomy data',
+                        style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
+                      ),
+                    ],
                   ),
                 );
               } else {

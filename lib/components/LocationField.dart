@@ -69,7 +69,7 @@ class _LocationFieldState extends State<LocationField> {
     final tz = todayObj.timeZoneOffset.inHours;
     locationController.text = placeName;
 
-    final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');  
+    final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
 
     if (response.statusCode == 200) {
       setState(() {
@@ -91,6 +91,10 @@ class _LocationFieldState extends State<LocationField> {
     var darksky = new DarkSkyWeather(_darkSkyKey,
       language: Language.English, units: Units.values[unitIdx]);
     var forecast = await darksky.getForecast(coords.latitude, coords.longitude);
+
+    if(forecast.currently == null) {
+      return Future.error('Error loading Dark Sky data');
+    }
     return forecast;
   }
 
