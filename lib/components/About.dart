@@ -24,9 +24,9 @@ class About extends StatelessWidget {
               ),
               padding: EdgeInsets.only(bottom: 20.0),
             ),
-            new Text('Sun and Moon data is provided by the Astronomical Applications API provided by the US Navy', style: Theme.of(context).textTheme.headline,),
+            new Text('Sun data is provided by Sunrise-Sunset', style: Theme.of(context).textTheme.headline,),
             new ClickableLink(
-              url: 'https://aa.usno.navy.mil/data/docs/api.php#rstt',
+              url: 'https://sunrise-sunset.org/api',
               child: new Text('API Documentation', style: Theme.of(context).textTheme.body2)
             ),
             new Spacer(),

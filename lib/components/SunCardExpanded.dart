@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:conditions/models/SunData.dart';
 
-class SunCard extends StatefulWidget {
-  SunCard(this.sunData);
+class SunCardExpanded extends StatefulWidget {
+  SunCardExpanded(this.sunData);
 
   final SunData sunData;
-  SunCardState createState() => new SunCardState();
+  SunCardExpandedState createState() => new SunCardExpandedState();
 }
 
-class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
+class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<Color> _animation;
   
@@ -29,7 +29,7 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(SunCard oldWidget) {
+  void didUpdateWidget(SunCardExpanded oldWidget) {
     if(oldWidget.sunData != widget.sunData) {
       _controller.reset();
       _controller.forward();
@@ -125,6 +125,30 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                 ]
               ),
           ]),
+          new Divider(color: Colors.white),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0, right: 12.0),
+                    child: new Icon(
+                      FontAwesomeIcons.stopwatch,
+                      color: Colors.indigoAccent,
+                      size: 40
+                    ),
+                  ),
+                  new Text(
+                    '${widget.sunData.dayLength}',
+                    style: Theme.of(context).textTheme.title,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )
+            ],
+          )
         ],
       ),
     );

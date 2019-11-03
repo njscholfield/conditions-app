@@ -9,12 +9,12 @@ import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:conditions/models/AstronData.dart';
+import 'package:conditions/models/SunData.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateAstronData, this.updateDarkSkyData, this.updateUnitIdx);
+  LocationField(this.updateSunData, this.updateDarkSkyData, this.updateUnitIdx);
 
-  final Function(Future<AstronData>) updateAstronData;
+  final Function(Future<SunData>) updateSunData;
   final Function(Future<Forecast>) updateDarkSkyData;
   final Function(int) updateUnitIdx;
   _LocationFieldState createState() => new _LocationFieldState();
@@ -51,31 +51,28 @@ class _LocationFieldState extends State<LocationField> {
         setState(() {
           invalidLoc = true;
         });
-        widget.updateAstronData(Future<AstronData>.value(null));
+        widget.updateSunData(Future<SunData>.value(null));
         widget.updateDarkSkyData(Future<Forecast>.value(null));
         return null;
       }
       coords = placemark[0].position;
     }
-    widget.updateAstronData(callAstronAPI(coords, placemark[0]));
+    widget.updateSunData(callSunAPI(coords, placemark[0]));
     widget.updateDarkSkyData(callDarkSkyAPI(coords));
   }
 
-  Future<AstronData> callAstronAPI(Position coords, Placemark placemark) async {
-    final DateTime todayObj = DateTime.now();
-    final String today = DateFormat.yMd().format(todayObj);
+  Future<SunData> callSunAPI(Position coords, Placemark placemark) async {
+    final String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
     final String placeName = '${placemark.locality}, ${placemark.administrativeArea}';
-    final String coordsStr = '${coords.latitude},${coords.longitude}';
-    final tz = todayObj.timeZoneOffset.inHours;
     locationController.text = placeName;
 
-    final response = await http.get('https://api.usno.navy.mil/rstt/oneday?date=$today&coords=$coordsStr&tz=$tz');
+    final response = await http.get('https://api.sunrise-sunset.org/json?lat=${coords.latitude}&lng=${coords.longitude}&date=$today&formatted=0');
 
     if (response.statusCode == 200) {
       setState(() {
         invalidLoc = false;
       });
-      return AstronData.fromJson(json.decode(response.body), context);
+      return SunData.fromJson(json.decode(response.body));
     } else {
       setState(() {
         invalidLoc = true;

@@ -1,3 +1,4 @@
+import 'package:conditions/components/SunCardExpanded.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +12,7 @@ import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
 import 'package:conditions/components/Settings.dart';
 
-import 'package:conditions/models/AstronData.dart';
+import 'package:conditions/models/SunData.dart';
 
 void main() => runApp(MyApp());
 
@@ -67,13 +68,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<AstronData> _astronData;
+  Future<SunData> _sunData;
   Future<Forecast> _darkSky;
   int _unitIdx;
 
-  void updateAstronData(Future<AstronData> newAstronData) {
+  void updateSunData(Future<SunData> newSunData) {
     setState(() {
-      _astronData = newAstronData;
+      _sunData = newSunData;
     });
   }
 
@@ -109,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          new LocationField(updateAstronData, updateDarkSkyData, updateUnitIdx),
+          new LocationField(updateSunData, updateDarkSkyData, updateUnitIdx),
           new FutureBuilder<Forecast>(
             future: _darkSky,
             builder: (context, snapshot) {
@@ -156,57 +157,26 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             }
           ),
-          new FutureBuilder<AstronData>(
-            future: _astronData,
+          new FutureBuilder<SunData>(
+            future: _sunData,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
                 return Container(child: Center(child: new CircularProgressIndicator()));
               } else if (snapshot.hasData) {
-                return new Column(
-                  children: <Widget>[
-                    new GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return new Scaffold(
-                              appBar: AppBar(
-                                title: Text('Sun Details'),
-                              ),
-                              body: SunCard(snapshot.data)
-                            );
-                          },
-                        ));
+                return new GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return new Scaffold(
+                          appBar: AppBar(
+                            title: Text('Sun Details'),
+                          ),
+                          body: SunCardExpanded(snapshot.data)
+                        );
                       },
-                      child: new SunCard(snapshot.data),
-                    ),
-                    new GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return new Scaffold(
-                              appBar: AppBar(
-                                title: Text('Moon Details'),
-                              ),
-                              body: MoonCard(snapshot.data)
-                            );
-                          },
-                        ));
-                      },
-                      child: new MoonCard(snapshot.data),
-                    ),
-                    new GestureDetector(
-                      child: Text('About this app',
-                        style: Theme.of(context).textTheme.body1.copyWith(decoration: TextDecoration.underline)
-                      ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return new About();
-                          },
-                        ));
-                      },
-                    )
-                  ]
+                    ));
+                  },
+                  child: new SunCard(snapshot.data),
                 );
               } else if(snapshot.hasError) {
                 return Container(
@@ -214,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: <Widget>[
                       new Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
-                      new Text('Error loading astronomy data',
+                      new Text('Error loading sun data',
                         style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
                       ),
                     ],
@@ -229,6 +199,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               }
             }
+          ),
+          new GestureDetector(
+            child: Text('About this app',
+              style: Theme.of(context).textTheme.body1.copyWith(decoration: TextDecoration.underline),
+              textAlign: TextAlign.center,
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return new About();
+                },
+              ));
+            },
           )
         ]
       ),
