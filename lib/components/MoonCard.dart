@@ -62,20 +62,23 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
             children: <Widget>[
               new Column(
                 children: <Widget>[
-                  new Padding(
-                    padding: EdgeInsets.only(bottom: 12.0),
-                    child: new Row(
-                      children: <Widget>[
-                        new Icon(
-                          FontAwesomeIcons.solidMoon,
-                          color: Colors.blueGrey[600],
-                          size: 40
-                        ),
-                        new Icon(
-                          FontAwesomeIcons.longArrowAltUp,
-                          color: Colors.black
-                        ),
-                      ]
+                  new Tooltip(
+                    message: 'Moonrise',
+                    child: new Padding(
+                      padding: EdgeInsets.only(bottom: 12.0),
+                      child: new Row(
+                        children: <Widget>[
+                          new Icon(
+                            FontAwesomeIcons.solidMoon,
+                            color: Colors.blueGrey[600],
+                            size: 40
+                          ),
+                          new Icon(
+                            FontAwesomeIcons.longArrowAltUp,
+                            color: Colors.black
+                          ),
+                        ]
+                      ),
                     ),
                   ),
                   new Text(
@@ -87,20 +90,23 @@ class MoonCardState extends State<MoonCard> with SingleTickerProviderStateMixin 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Padding(
-                    padding: EdgeInsets.only(bottom: 12.0),
-                    child: new Row(
-                      children: <Widget>[
-                        new Icon(
-                          FontAwesomeIcons.solidMoon,
-                          color: Colors.blueGrey[600],
-                          size: 40,
-                        ),
-                        new Icon(
-                          FontAwesomeIcons.longArrowAltDown,
-                          color: Colors.black
-                        ),
-                      ],
+                  new Tooltip(
+                    message: 'Moonset',
+                    child: new Padding(
+                      padding: EdgeInsets.only(bottom: 12.0),
+                      child: new Row(
+                        children: <Widget>[
+                          new Icon(
+                            FontAwesomeIcons.solidMoon,
+                            color: Colors.blueGrey[600],
+                            size: 40,
+                          ),
+                          new Icon(
+                            FontAwesomeIcons.longArrowAltDown,
+                            color: Colors.black
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   new Text(

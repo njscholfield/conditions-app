@@ -36,14 +36,17 @@ class DarkSkyExpanded extends StatelessWidget {
                       flex: 1,
                       child: new Column(
                         children: <Widget>[
-                          new Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
-                              new Text('${_forecast.currently.temperature.round()}º',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
-                              ),
-                            ],
+                          new Tooltip(
+                            message: 'Current Temperature',
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
+                                new Text('${_forecast.currently.temperature.round()}º',
+                                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                                ),
+                              ],
+                            ),
                           ),
                           new Text(_forecast.currently.summary,
                             style: Theme.of(context).textTheme.title,
@@ -140,7 +143,7 @@ class DarkSkyExpanded extends StatelessWidget {
                   ),
                 ),
                 new Divider(color: Colors.white),
-                new Text('Next Hour: ${_forecast.minutely.summary}',
+                new Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
                   style: Theme.of(context).textTheme.title,
                 ),
                 new Padding(
@@ -160,5 +163,4 @@ class DarkSkyExpanded extends StatelessWidget {
       )
     );
   }
-
 }

@@ -61,20 +61,23 @@ class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProvi
             children: <Widget>[
               new Column(
                 children: <Widget>[
-                  new Padding(
-                    padding: EdgeInsets.only(bottom: 12.0),
-                    child: new Row(
-                      children: <Widget>[
-                        new Icon(
-                          FontAwesomeIcons.solidSun,
-                          color: Colors.yellow[600],
-                          size: 40
-                        ),
-                        new Icon(
-                          FontAwesomeIcons.longArrowAltUp,
-                          color: Colors.black
-                        ),
-                      ]
+                  new Tooltip(
+                    message: 'Sunrise',
+                    child: new Padding(
+                      padding: EdgeInsets.only(bottom: 12.0),
+                      child: new Row(
+                        children: <Widget>[
+                          new Icon(
+                            FontAwesomeIcons.solidSun,
+                            color: Colors.yellow[600],
+                            size: 40
+                          ),
+                          new Icon(
+                            FontAwesomeIcons.longArrowAltUp,
+                            color: Colors.black
+                          ),
+                        ]
+                      ),
                     ),
                   ),
                   new Text(
@@ -86,20 +89,23 @@ class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProvi
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Padding(
-                    padding: EdgeInsets.only(bottom: 12.0),
-                    child: new Row(
-                      children: <Widget>[
-                        new Icon(
-                          FontAwesomeIcons.solidSun,
-                          color: Colors.yellow[800],
-                          size: 40,
-                        ),
-                        new Icon(
-                          FontAwesomeIcons.longArrowAltDown,
-                          color: Colors.black
-                        ),
-                      ],
+                  new Tooltip(
+                    message: 'Sunset',
+                    child: new Padding(
+                      padding: EdgeInsets.only(bottom: 12.0),
+                      child: new Row(
+                        children: <Widget>[
+                          new Icon(
+                            FontAwesomeIcons.solidSun,
+                            color: Colors.yellow[800],
+                            size: 40,
+                          ),
+                          new Icon(
+                            FontAwesomeIcons.longArrowAltDown,
+                            color: Colors.black
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   new Text(
@@ -110,13 +116,16 @@ class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProvi
               ),
               new Column(
                 children: <Widget>[
-                  new Padding(
-                    padding: EdgeInsets.only(bottom: 12.0),
-                    child: new Icon(
-                      FontAwesomeIcons.solidMoon,
-                      color: Colors.blueGrey[600],
-                      size: 40
-                    )
+                  new Tooltip(
+                    message: 'Dusk',
+                    child: new Padding(
+                      padding: EdgeInsets.only(bottom: 12.0),
+                      child: new Icon(
+                        FontAwesomeIcons.solidMoon,
+                        color: Colors.blueGrey[600],
+                        size: 40
+                      )
+                    ),
                   ),
                   new Text(
                     widget.sunData.civilTwilightEnd,
@@ -132,12 +141,15 @@ class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProvi
               new Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0, right: 12.0),
-                    child: new Icon(
-                      FontAwesomeIcons.stopwatch,
-                      color: Colors.indigoAccent,
-                      size: 40
+                  new Tooltip(
+                    message: 'Day Length',
+                    child: new Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0, right: 12.0),
+                      child: new Icon(
+                        FontAwesomeIcons.stopwatch,
+                        color: Colors.indigoAccent,
+                        size: 40
+                      ),
                     ),
                   ),
                   new Text(
