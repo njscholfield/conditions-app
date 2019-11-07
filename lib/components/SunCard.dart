@@ -46,33 +46,33 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.green[300],
-        borderRadius: new BorderRadius.all(new Radius.circular(10.0))
+        borderRadius: BorderRadius.all(Radius.circular(10.0))
       ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Text('Sun', style: Theme.of(context).textTheme.display1),
-          new Row(
+          Text('Sun', style: Theme.of(context).textTheme.display1),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              new Column(
+              Column(
                 children: <Widget>[
-                  new Tooltip(
+                  Tooltip(
                     message: 'Sunrise',
-                    child: new Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Row(
+                      child: Row(
                         children: <Widget>[
-                          new Icon(
+                          Icon(
                             FontAwesomeIcons.solidSun,
                             color: Colors.yellow[600],
                             size: 40
                           ),
-                          new Icon(
+                          Icon(
                             FontAwesomeIcons.longArrowAltUp,
                             color: Colors.black
                           ),
@@ -80,27 +80,27 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  new Text(
+                  Text(
                     widget.sunData.sunrise,
                     style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
                   ),
                 ]
               ),
-              new Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Tooltip(
+                  Tooltip(
                     message: 'Sunset',
-                    child: new Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Row(
+                      child: Row(
                         children: <Widget>[
-                          new Icon(
+                          Icon(
                             FontAwesomeIcons.solidSun,
                             color: Colors.yellow[800],
                             size: 40,
                           ),
-                          new Icon(
+                          Icon(
                             FontAwesomeIcons.longArrowAltDown,
                             color: Colors.black
                           ),
@@ -108,26 +108,26 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  new Text(
+                  Text(
                     widget.sunData.sunset,
                     style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
                   ),
                 ],
               ),
-              new Column(
+              Column(
                 children: <Widget>[
-                  new Tooltip(
-                    message: 'Dusk',
-                    child: new Padding(
+                  Tooltip(
+                    message: 'Civil Twilight End (Dusk)',
+                    child: Padding(
                       padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Icon(
-                        FontAwesomeIcons.solidMoon,
+                      child: Icon(
+                        FontAwesomeIcons.solidBuilding,
                         color: Colors.blueGrey[600],
                         size: 40
                       )
                     ),
                   ),
-                  new Text(
+                  Text(
                     widget.sunData.civilTwilightEnd,
                     style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
                   ),
