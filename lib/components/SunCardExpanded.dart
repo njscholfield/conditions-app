@@ -1,47 +1,12 @@
+import 'package:conditions/components/ClickableLink.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:conditions/models/SunData.dart';
 
-class SunCardExpanded extends StatefulWidget {
+class SunCardExpanded extends StatelessWidget {
   SunCardExpanded(this.sunData);
 
   final SunData sunData;
-  SunCardExpandedState createState() => new SunCardExpandedState();
-}
-
-class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Color> _animation;
-  
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-
-    _animation = new ColorTween(begin: Colors.blue, end: Colors.white).animate(_controller)..addListener((){
-      setState(() {});
-    });
-    _controller.forward();
-
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(SunCardExpanded oldWidget) {
-    if(oldWidget.sunData != widget.sunData) {
-      _controller.reset();
-      _controller.forward();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,115 +17,246 @@ class SunCardExpandedState extends State<SunCardExpanded> with SingleTickerProvi
       ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: <Widget>[
-          new Text('Sun', style: Theme.of(context).textTheme.display1),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              new Column(
-                children: <Widget>[
-                  new Tooltip(
-                    message: 'Sunrise',
-                    child: new Padding(
-                      padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Row(
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Wrap(
+                    spacing: 40.0,
+                    alignment: WrapAlignment.spaceAround,
+                    runSpacing: 20.0,
+                    children: <Widget>[
+                      Column(
                         children: <Widget>[
-                          new Icon(
-                            FontAwesomeIcons.solidSun,
-                            color: Colors.yellow[600],
-                            size: 40
+                          Tooltip(
+                            message: 'Astronomical Twilight Begin',
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Icon(
+                                FontAwesomeIcons.userAstronaut,
+                                size: 40,
+                                color: Colors.blueGrey[100]
+                              ),
+                            ),
                           ),
-                          new Icon(
-                            FontAwesomeIcons.longArrowAltUp,
-                            color: Colors.black
+                          Text(
+                            sunData.astroTwilightBegin,
+                            style: Theme.of(context).textTheme.title,
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Tooltip(
+                            message: 'Nautical Twilight Begin',
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 12, right: 10.0),
+                              child: Icon(
+                                FontAwesomeIcons.ship,
+                                size: 40,
+                                color: Colors.blueGrey[300],
+                              ),
+                            )
+                          ),
+                          Text(
+                            sunData.nauticalTwilightBegin,
+                            style: Theme.of(context).textTheme.title,
+                          )
+                        ]
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Tooltip(
+                            message: 'Civil Twilight Begin (Dawn)',
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Icon(
+                                FontAwesomeIcons.solidBuilding,
+                                size: 40,
+                                color: Colors.blueGrey[400]
+                              )
+                            ),
+                          ),
+                          Text(
+                            sunData.civilTwilightBegin,
+                            style: Theme.of(context).textTheme.title
+                          )
+                        ]
+                      ),
+                       Column(
+                        children: <Widget>[
+                           Tooltip(
+                            message: 'Sunrise',
+                             child: Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Container(
+                                constraints: BoxConstraints(maxWidth: 65.0),
+                                 child: Row(
+                                  children: <Widget>[
+                                     Icon(
+                                      FontAwesomeIcons.solidSun,
+                                      color: Colors.yellow[300],
+                                      size: 40
+                                    ),
+                                     Icon(
+                                      FontAwesomeIcons.longArrowAltUp,
+                                      color: Colors.black
+                                    ),
+                                  ]
+                                ),
+                              ),
+                            ),
+                          ),
+                           Text(
+                            sunData.sunrise,
+                            style: Theme.of(context).textTheme.title,
                           ),
                         ]
                       ),
-                    ),
-                  ),
-                  new Text(
-                    widget.sunData.sunrise,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
-                  ),
-                ]
-              ),
-              new Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  new Tooltip(
-                    message: 'Sunset',
-                    child: new Padding(
-                      padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Row(
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          new Icon(
-                            FontAwesomeIcons.solidSun,
-                            color: Colors.yellow[800],
-                            size: 40,
+                          Tooltip(
+                            message: 'Solar Noon',
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Icon(
+                                FontAwesomeIcons.solidClock,
+                                size: 40,
+                                color: Colors.yellow
+                              ),
+                            ),
                           ),
-                          new Icon(
-                            FontAwesomeIcons.longArrowAltDown,
-                            color: Colors.black
+                          Text(
+                            sunData.solarNoon,
+                            style: Theme.of(context).textTheme.title
+                          )
+                        ]
+                      ),
+                       Column(
+                        children: <Widget>[
+                           Tooltip(
+                            message: 'Sunset',
+                             child: Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Container(
+                                constraints: BoxConstraints(maxWidth: 65.0),
+                                 child: Row(
+                                  children: <Widget>[
+                                     Icon(
+                                      FontAwesomeIcons.solidSun,
+                                      color: Colors.yellow[800],
+                                      size: 40,
+                                    ),
+                                     Icon(
+                                      FontAwesomeIcons.longArrowAltDown,
+                                      color: Colors.black
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                           Text(
+                            sunData.sunset,
+                            style: Theme.of(context).textTheme.title,
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  new Text(
-                    widget.sunData.sunset,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
-                  ),
-                ],
-              ),
-              new Column(
-                children: <Widget>[
-                  new Tooltip(
-                    message: 'Dusk',
-                    child: new Padding(
-                      padding: EdgeInsets.only(bottom: 12.0),
-                      child: new Icon(
-                        FontAwesomeIcons.solidMoon,
-                        color: Colors.blueGrey[600],
-                        size: 40
-                      )
-                    ),
-                  ),
-                  new Text(
-                    widget.sunData.civilTwilightEnd,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
-                  ),
-                ]
-              ),
-          ]),
-          new Divider(color: Colors.white),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  new Tooltip(
-                    message: 'Day Length',
-                    child: new Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0, right: 12.0),
-                      child: new Icon(
-                        FontAwesomeIcons.stopwatch,
-                        color: Colors.indigoAccent,
-                        size: 40
+                       Column(
+                        children: <Widget>[
+                           Tooltip(
+                            message: 'Civil Twilight End (Dusk)',
+                             child: Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                               child: Icon(
+                                FontAwesomeIcons.solidBuilding,
+                                color: Colors.blueGrey[600],
+                                size: 40
+                              )
+                            ),
+                          ),
+                           Text(
+                            sunData.civilTwilightEnd,
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ]
                       ),
-                    ),
+                       Column(
+                        children: <Widget>[
+                           Tooltip(
+                            message: 'Nautilcal Twilight End',
+                             child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0, right: 10.0),
+                               child: Icon(
+                                FontAwesomeIcons.ship,
+                                size: 40,
+                                color: Colors.blueGrey[700]
+                              ),
+                            ),
+                          ),
+                           Text(
+                            sunData.nauticalTwilightEnd,
+                            style: Theme.of(context).textTheme.title
+                          )
+                        ]
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Tooltip(
+                            message: 'Astronomical Twilight End',
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Icon(
+                                FontAwesomeIcons.userAstronaut,
+                                size: 40,
+                                color: Colors.blueGrey[900]
+                              ),
+                            )
+                          ),
+                          Text(
+                            sunData.astroTwilightEnd,
+                            style: Theme.of(context).textTheme.title,
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                           Tooltip(
+                            message: 'Day Length',
+                             child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                               child: Icon(
+                                FontAwesomeIcons.stopwatch,
+                                color: Colors.indigoAccent,
+                                size: 40
+                              ),
+                            ),
+                          ),
+                           Text(
+                            sunData.dayLength,
+                            style: Theme.of(context).textTheme.title,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ]
                   ),
-                  new Text(
-                    '${widget.sunData.dayLength}',
-                    style: Theme.of(context).textTheme.title,
-                    textAlign: TextAlign.center,
+                ),
+                 ClickableLink(
+                  url: 'https://www.timeanddate.com/astronomy/different-types-twilight.html',
+                  child: Text(
+                    'Twilight, Dawn, and Dusk Info',
+                    style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white)
                   ),
-                ],
-              )
-            ],
-          )
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
