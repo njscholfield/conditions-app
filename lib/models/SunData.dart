@@ -34,7 +34,7 @@ class SunData {
 
     String formatDuration(int dayLen) {
       Duration duration = new Duration(seconds: dayLen);
-      return '${duration.inHours}:${duration.inMinutes % 60}:${duration.inSeconds % 60}';
+      return duration.toString().split('.')[0];
     }
 
     return new SunData(

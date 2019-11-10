@@ -226,7 +226,7 @@ class SunCardExpanded extends StatelessWidget {
                       ),
                       Column(
                         children: <Widget>[
-                           Tooltip(
+                          Tooltip(
                             message: 'Day Length',
                              child: Padding(
                               padding: const EdgeInsets.only(bottom: 5.0),
@@ -237,7 +237,7 @@ class SunCardExpanded extends StatelessWidget {
                               ),
                             ),
                           ),
-                           Text(
+                          Text(
                             sunData.dayLength,
                             style: Theme.of(context).textTheme.title,
                             textAlign: TextAlign.center,
@@ -247,7 +247,13 @@ class SunCardExpanded extends StatelessWidget {
                     ]
                   ),
                 ),
-                 ClickableLink(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Text('All times are in your current time zone',
+                   style: Theme.of(context).textTheme.body1.copyWith(color: Colors.white)
+                  ),
+                ),
+                  ClickableLink(
                   url: 'https://www.timeanddate.com/astronomy/different-types-twilight.html',
                   child: Text(
                     'Twilight, Dawn, and Dusk Info',

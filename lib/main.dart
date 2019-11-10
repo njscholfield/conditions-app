@@ -7,7 +7,7 @@ import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:conditions/components/DarkSky.dart';
 import 'package:conditions/components/DarkSkyExpanded.dart';
 import 'package:conditions/components/SunCard.dart';
-import 'package:conditions/components/MoonCard.dart';
+// import 'package:conditions/components/MoonCard.dart';
 import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
 import 'package:conditions/components/Settings.dart';
