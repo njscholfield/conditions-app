@@ -7,12 +7,13 @@ import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:conditions/components/DarkSky.dart';
 import 'package:conditions/components/DarkSkyExpanded.dart';
 import 'package:conditions/components/SunCard.dart';
-// import 'package:conditions/components/MoonCard.dart';
+import 'package:conditions/components/MoonCard.dart';
 import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
 import 'package:conditions/components/Settings.dart';
 
 import 'package:conditions/models/SunData.dart';
+import 'package:conditions/models/MoonData.dart';
 
 void main() => runApp(MyApp());
 
@@ -69,12 +70,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<SunData> _sunData;
+  Future<MoonData> _moonData;
   Future<Forecast> _darkSky;
   int _unitIdx;
 
   void updateSunData(Future<SunData> newSunData) {
     setState(() {
       _sunData = newSunData;
+    });
+  }
+
+  void updateMoonData(Future<MoonData> newMoonData) {
+    setState(() {
+      _moonData = newMoonData;
     });
   }
 
@@ -96,12 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
-          new IconButton(
+          IconButton(
             icon: Icon(FontAwesomeIcons.cog),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return new Settings();
+                  return Settings();
                 },
               ));
             },
@@ -110,18 +118,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          new LocationField(updateSunData, updateDarkSkyData, updateUnitIdx),
-          new FutureBuilder<Forecast>(
+          LocationField(updateSunData, updateMoonData, updateDarkSkyData, updateUnitIdx),
+          FutureBuilder<Forecast>(
             future: _darkSky,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
-                return new Container();
+                return Container();
               } else if(snapshot.hasData) {
                 return Column(
                   children: <Widget>[
-                    new Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: new Text(
+                    Container(
+                      margin: const EdgeInsets.all(10.0),
+                      child: Text(
                         'Updated: ${DateFormat.MMMMEEEEd().add_jm().format(new DateTime.now())}',
                         style: Theme.of(context).textTheme.subhead.copyWith(
                           fontWeight: FontWeight.bold,
@@ -130,44 +138,44 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    new GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return new DarkSkyExpanded(snapshot.data, _unitIdx);
+                            return DarkSkyExpanded(snapshot.data, _unitIdx);
                           },
                         ));
                       },
-                      child: new DarkSky(snapshot.data),
+                      child: DarkSky(snapshot.data),
                     ),
                   ],
                 );
               } else if(snapshot.hasError) {
                 return Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      new Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
-                      new Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red))
+                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red))
                     ],
                   ),
                 );
               } else {
-                return new Container();
+                return Container();
               }
             }
           ),
-          new FutureBuilder<SunData>(
+          FutureBuilder<SunData>(
             future: _sunData,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
-                return Container(child: Center(child: new CircularProgressIndicator()));
+                return Container(child: Center(child: CircularProgressIndicator()));
               } else if (snapshot.hasData) {
-                return new GestureDetector(
+                return GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return new Scaffold(
+                        return Scaffold(
                           appBar: AppBar(
                             title: Text('Sun Details'),
                           ),
@@ -176,31 +184,69 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ));
                   },
-                  child: new SunCard(snapshot.data),
+                  child: SunCard(snapshot.data),
                 );
               } else if(snapshot.hasError) {
                 return Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      new Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
-                      new Text('Error loading sun data',
+                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      Text('Error loading sun data',
                         style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
                 );
               } else {
-                return new Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: new Text('Enter a location to see the conditions there', 
+                return Container(
+                  margin: const EdgeInsets.all(10.0),
+                  child: Text('Enter a location to see the conditions there', 
                     style: Theme.of(context).textTheme.headline
                   )
                 );
               }
             }
           ),
-          new GestureDetector(
+          FutureBuilder<MoonData>(
+            future: _moonData,
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return Container(child: Center(child: CircularProgressIndicator()));
+              } else if (snapshot.hasData) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Scaffold(
+                          appBar: AppBar(
+                            title: Text('Moon Details'),
+                          ),
+                          body: MoonCard(snapshot.data)
+                        );
+                      },
+                    ));
+                  },
+                  child: MoonCard(snapshot.data),
+                );
+              } else if(snapshot.hasError) {
+                return Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      Text('Error loading moon data: ${snapshot.error}',
+                        style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            }
+          ),
+          GestureDetector(
             child: Text('About this app',
               style: Theme.of(context).textTheme.body1.copyWith(decoration: TextDecoration.underline),
               textAlign: TextAlign.center,
@@ -208,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return new About();
+                  return About();
                 },
               ));
             },

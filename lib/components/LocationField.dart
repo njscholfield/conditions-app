@@ -10,11 +10,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:conditions/models/SunData.dart';
+import 'package:conditions/models/MoonData.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateSunData, this.updateDarkSkyData, this.updateUnitIdx);
+  LocationField(this.updateSunData, this.updateMoonData, this.updateDarkSkyData, this.updateUnitIdx);
 
   final Function(Future<SunData>) updateSunData;
+  final Function(Future<MoonData>) updateMoonData;
   final Function(Future<Forecast>) updateDarkSkyData;
   final Function(int) updateUnitIdx;
   _LocationFieldState createState() => new _LocationFieldState();
@@ -26,6 +28,8 @@ class _LocationFieldState extends State<LocationField> {
   Geolocator geolocator = Geolocator();
   bool invalidLoc;
   String _darkSkyKey;
+  String _hereAppId;
+  String _hereAppCode;
 
   // Load in the Dark Sky API Key from the config file
   Future<String> loadAsset() async {
@@ -35,7 +39,10 @@ class _LocationFieldState extends State<LocationField> {
   // Assign key to variable
   _LocationFieldState() {
     loadAsset().then((val) => setState(() {
-        _darkSkyKey = jsonDecode(val)['dark_sky_key'];
+        final Map<String, dynamic> data = jsonDecode(val);
+        _darkSkyKey = data['dark_sky_key'];
+        _hereAppId = data['here_app_id'];
+        _hereAppCode = data['here_app_code'];
       })
     );
   }
@@ -52,12 +59,14 @@ class _LocationFieldState extends State<LocationField> {
           invalidLoc = true;
         });
         widget.updateSunData(Future<SunData>.value(null));
+        widget.updateMoonData(Future<MoonData>.value(null));
         widget.updateDarkSkyData(Future<Forecast>.value(null));
         return null;
       }
       coords = placemark[0].position;
     }
     widget.updateSunData(callSunAPI(coords, placemark[0]));
+    widget.updateMoonData(callMoonApi(coords));
     widget.updateDarkSkyData(callDarkSkyAPI(coords));
   }
 
@@ -78,6 +87,16 @@ class _LocationFieldState extends State<LocationField> {
         invalidLoc = true;
       });
       return null;
+    }
+  }
+
+  Future<MoonData> callMoonApi(Position coords) async {
+    final response = await http.get('https://weather.cit.api.here.com/weather/1.0/report.json?product=forecast_astronomy&latitude=${coords.latitude}&longitude=${coords.longitude}&app_id=$_hereAppId&app_code=$_hereAppCode');
+
+    if(response.statusCode == 200) {
+      return MoonData.fromJson(json.decode(response.body)['astronomy']['astronomy'][0]);
+    } else {
+      return Future.error('Unable to fetch moon data');
     }
   }
 
