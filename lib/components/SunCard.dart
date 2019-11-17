@@ -2,46 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:conditions/models/SunData.dart';
 
-class SunCard extends StatefulWidget {
+class SunCard extends StatelessWidget {
   SunCard(this.sunData);
 
   final SunData sunData;
-  SunCardState createState() => new SunCardState();
-}
-
-class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Color> _animation;
-  
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-
-    _animation = new ColorTween(begin: Colors.blue, end: Colors.white).animate(_controller)..addListener((){
-      setState(() {});
-    });
-    _controller.forward();
-
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(SunCard oldWidget) {
-    if(oldWidget.sunData != widget.sunData) {
-      _controller.reset();
-      _controller.forward();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +45,8 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    widget.sunData.sunrise,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
+                    sunData.sunrise,
+                    style: Theme.of(context).textTheme.title,
                   ),
                 ]
               ),
@@ -109,8 +73,8 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    widget.sunData.sunset,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
+                    sunData.sunset,
+                    style: Theme.of(context).textTheme.title,
                   ),
                 ],
               ),
@@ -128,8 +92,8 @@ class SunCardState extends State<SunCard> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    widget.sunData.civilTwilightEnd,
-                    style: Theme.of(context).textTheme.title.copyWith(color: _animation.value),
+                    sunData.civilTwilightEnd,
+                    style: Theme.of(context).textTheme.title,
                   ),
                 ]
               ),
