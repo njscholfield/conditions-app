@@ -29,18 +29,18 @@ class SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body: new Container(
+      body: Container(
         margin: EdgeInsets.all(10.0),
         padding: EdgeInsets.all(20.0),
-        child: new Container(
+        child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Text('Select the units you would like:'),
+              Text('Select the units you would like:'),
               DropdownButton<int>(
                 value: dropdownValue,
                 onChanged: (int newValue) {
@@ -52,12 +52,12 @@ class SettingsState extends State<Settings> {
                   .map<DropdownMenuItem<int>>((Map<String, dynamic> item) {
                     return DropdownMenuItem<int>(
                       value: item['value'],
-                      child: new Text(item['text']),
+                      child: Text(item['text']),
                     );
                   })
                   .toList(),
               ),
-              new RaisedButton(
+              RaisedButton(
                 onPressed: () {
                   setUnit(dropdownValue);
                   Navigator.pop(context);

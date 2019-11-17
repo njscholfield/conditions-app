@@ -11,9 +11,9 @@ class SunCardExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: new BoxDecoration(
+      decoration:  BoxDecoration(
         color: Colors.green[300],
-        borderRadius: new BorderRadius.all(new Radius.circular(10.0))
+        borderRadius: const BorderRadius.all( Radius.circular(10.0))
       ),
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(20.0),
@@ -54,7 +54,7 @@ class SunCardExpanded extends StatelessWidget {
                           Tooltip(
                             message: 'Nautical Twilight Begin',
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: 12, right: 10.0),
+                              padding: const EdgeInsets.only(bottom: 12, right: 10.0),
                               child: Icon(
                                 FontAwesomeIcons.ship,
                                 size: 40,
@@ -73,7 +73,7 @@ class SunCardExpanded extends StatelessWidget {
                           Tooltip(
                             message: 'Civil Twilight Begin (Dawn)',
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: 12.0),
+                              padding: const EdgeInsets.only(bottom: 12.0),
                               child: Icon(
                                 FontAwesomeIcons.solidBuilding,
                                 size: 40,
@@ -94,7 +94,7 @@ class SunCardExpanded extends StatelessWidget {
                              child: Padding(
                               padding: EdgeInsets.only(bottom: 12.0),
                               child: Container(
-                                constraints: BoxConstraints(maxWidth: 65.0),
+                                constraints: const BoxConstraints(maxWidth: 65.0),
                                  child: Row(
                                   children: <Widget>[
                                      Icon(
@@ -142,7 +142,7 @@ class SunCardExpanded extends StatelessWidget {
                            Tooltip(
                             message: 'Sunset',
                              child: Padding(
-                              padding: EdgeInsets.only(bottom: 12.0),
+                              padding: const EdgeInsets.only(bottom: 12.0),
                               child: Container(
                                 constraints: BoxConstraints(maxWidth: 65.0),
                                  child: Row(
@@ -172,7 +172,7 @@ class SunCardExpanded extends StatelessWidget {
                            Tooltip(
                             message: 'Civil Twilight End (Dusk)',
                              child: Padding(
-                              padding: EdgeInsets.only(bottom: 12.0),
+                              padding: const EdgeInsets.only(bottom: 12.0),
                                child: Icon(
                                 FontAwesomeIcons.solidBuilding,
                                 color: Colors.blueGrey[600],

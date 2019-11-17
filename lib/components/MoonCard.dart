@@ -12,7 +12,7 @@ class MoonCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.blue[200],
-        borderRadius: BorderRadius.all(Radius.circular(10.0))
+        borderRadius: const BorderRadius.all(Radius.circular(10.0))
       ),
       margin: const EdgeInsets.all(10.0),
       padding: const EdgeInsets.only(top: 20.0, bottom: 30.0),

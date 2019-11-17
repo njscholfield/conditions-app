@@ -17,7 +17,7 @@ class ClickableLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
+    return GestureDetector(
       onTap: () {
         _launchURL(url);
       },

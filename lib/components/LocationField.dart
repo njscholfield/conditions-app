@@ -131,9 +131,9 @@ class _LocationFieldState extends State<LocationField> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       margin: EdgeInsets.all(10.0),
-      child: new TextField(
+      child: TextField(
         controller: locationController,
         onSubmitted: (value) {
           setState(() {
@@ -143,8 +143,8 @@ class _LocationFieldState extends State<LocationField> {
         },
         decoration: InputDecoration(
           labelText: 'Enter a location',
-          prefix: new IconButton(
-            icon: new Icon(FontAwesomeIcons.locationArrow, color: locUsed ? Colors.blueAccent[700] : Colors.grey),
+          prefix: IconButton(
+            icon: Icon(FontAwesomeIcons.locationArrow, color: locUsed ? Colors.blueAccent[700] : Colors.grey),
             onPressed: () async {
               final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
               setState(() {
@@ -154,8 +154,8 @@ class _LocationFieldState extends State<LocationField> {
               FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
             },
           ),
-          suffix: new IconButton(
-            icon: new Icon(FontAwesomeIcons.search),
+          suffix: IconButton(
+            icon: Icon(FontAwesomeIcons.search),
             onPressed: () {
               setState(() {
                 locUsed = false;
@@ -164,7 +164,7 @@ class _LocationFieldState extends State<LocationField> {
               FocusScope.of(context).requestFocus(new FocusNode()); // Dismiss the keyboard
             },
           ),
-          errorBorder: new OutlineInputBorder(
+          errorBorder: OutlineInputBorder(
             borderSide: invalidLoc ? BorderSide(width: 2, color: Colors.red) : BorderSide(),
           ),
           errorText: invalidLoc ? 'Please enter a valid US location' : null

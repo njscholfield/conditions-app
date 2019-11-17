@@ -11,18 +11,18 @@ class DarkSky extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: Color.fromRGBO(228, 87, 46, .95),
-        borderRadius: new BorderRadius.all(new Radius.circular(10.0))
+        borderRadius: const BorderRadius.all(Radius.circular(10.0))
       ),
-      margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.all(20.0),
+      margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Column(
+          Column(
             children: <Widget>[
-              new Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Flexible(
@@ -31,19 +31,19 @@ class DarkSky extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        new Tooltip(
+                        Tooltip(
                           message: 'Current Temperature',
-                          child: new Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              new Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
-                              new Text(_forecast.currently.temperature.round().toString() + 'º',
+                              Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
+                              Text(_forecast.currently.temperature.round().toString() + 'º',
                                 style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
                               ),
                             ],
                           ),
                         ),
-                        new Text(_forecast.currently.summary,
+                        Text(_forecast.currently.summary,
                           style: Theme.of(context).textTheme.title,
                           textAlign: TextAlign.center,
                         ),
@@ -53,21 +53,21 @@ class DarkSky extends StatelessWidget {
                   Flexible(
                     fit: FlexFit.loose,
                     flex: 1,
-                    child: new Column(
+                    child: Column(
                       children: <Widget>[
-                        new Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            new Padding(
+                            Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: new Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
+                              child: Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
                             ),
-                            new Text('${(_forecast.currently.precipProbability * 100).round()}%',
+                            Text('${(_forecast.currently.precipProbability * 100).round()}%',
                               style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
                             ),
                           ],
                         ),
-                        new Text('Precipitation',
+                        Text('Precipitation',
                           style: Theme.of(context).textTheme.title,
                         )
                       ],
@@ -75,15 +75,15 @@ class DarkSky extends StatelessWidget {
                   )
                 ],
               ),
-              new Divider(color: Colors.white),
-              new Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
+              Divider(color: Colors.white),
+              Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
                 style: Theme.of(context).textTheme.title,
               ),
-              new Padding(
+              Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: new ClickableLink(
+                child: ClickableLink(
                   url: 'https://darksky.net/poweredby/',
-                  child: new Text('Powered by Dark Sky',
+                  child: Text('Powered by Dark Sky',
                     style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
                     textAlign: TextAlign.right,
                   ),
