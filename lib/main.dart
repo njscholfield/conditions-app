@@ -1,4 +1,3 @@
-import 'package:conditions/components/SunCardExpanded.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +6,9 @@ import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:conditions/components/DarkSky.dart';
 import 'package:conditions/components/DarkSkyExpanded.dart';
 import 'package:conditions/components/SunCard.dart';
+import 'package:conditions/components/SunCardExpanded.dart';
 import 'package:conditions/components/MoonCard.dart';
+import 'package:conditions/components/MoonCardExpanded.dart';
 import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
 import 'package:conditions/components/Settings.dart';
@@ -70,7 +71,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<SunData> _sunData;
-  Future<MoonData> _moonData;
+  Future<List<MoonData>> _moonData;
   Future<Forecast> _darkSky;
   int _unitIdx;
 
@@ -80,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void updateMoonData(Future<MoonData> newMoonData) {
+  void updateMoonData(Future<List<MoonData>> newMoonData) {
     setState(() {
       _moonData = newMoonData;
     });
@@ -208,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             }
           ),
-          FutureBuilder<MoonData>(
+          FutureBuilder<List<MoonData>>(
             future: _moonData,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -222,12 +223,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           appBar: AppBar(
                             title: Text('Moon Details'),
                           ),
-                          body: MoonCard(snapshot.data)
+                          body: MoonCardExpanded(snapshot.data)
                         );
                       },
                     ));
                   },
-                  child: MoonCard(snapshot.data),
+                  child: MoonCard(snapshot.data[0]),
                 );
               } else if(snapshot.hasError) {
                 return Container(

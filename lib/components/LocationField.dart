@@ -16,7 +16,7 @@ class LocationField extends StatefulWidget {
   LocationField(this.updateSunData, this.updateMoonData, this.updateDarkSkyData, this.updateUnitIdx);
 
   final Function(Future<SunData>) updateSunData;
-  final Function(Future<MoonData>) updateMoonData;
+  final Function(Future<List<MoonData>>) updateMoonData;
   final Function(Future<Forecast>) updateDarkSkyData;
   final Function(int) updateUnitIdx;
   _LocationFieldState createState() => new _LocationFieldState();
@@ -59,7 +59,7 @@ class _LocationFieldState extends State<LocationField> {
           invalidLoc = true;
         });
         widget.updateSunData(Future<SunData>.value(null));
-        widget.updateMoonData(Future<MoonData>.value(null));
+        widget.updateMoonData(Future<List<MoonData>>.value(null));
         widget.updateDarkSkyData(Future<Forecast>.value(null));
         return null;
       }
@@ -90,11 +90,16 @@ class _LocationFieldState extends State<LocationField> {
     }
   }
 
-  Future<MoonData> callMoonApi(Position coords) async {
+  Future<List<MoonData>> callMoonApi(Position coords) async {
     final response = await http.get('https://weather.cit.api.here.com/weather/1.0/report.json?product=forecast_astronomy&latitude=${coords.latitude}&longitude=${coords.longitude}&app_id=$_hereAppId&app_code=$_hereAppCode');
 
     if(response.statusCode == 200) {
-      return MoonData.fromJson(json.decode(response.body)['astronomy']['astronomy'][0]);
+      final List<MoonData> moonDataList = new List();
+      final List<dynamic> jsonList = json.decode(response.body)['astronomy']['astronomy'];
+      for (Map<String, dynamic> item in jsonList) {
+        moonDataList.add(MoonData.fromJson(item));
+      }
+      return moonDataList;
     } else {
       return Future.error('Unable to fetch moon data');
     }
