@@ -113,16 +113,24 @@ class MoonData extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
-                      child: Text(
-                        moonPhase,
-                        style: TextStyle(color: Colors.teal, fontSize: 30)
+                    Tooltip(
+                      message: '% Full',
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
+                        child: Text(
+                          moonPhase,
+                          style: TextStyle(color: Colors.teal, fontSize: 30)
+                        ),
                       ),
                     ),
-                    Text(
-                      'Full',
-                      style: Theme.of(context).textTheme.title
+                    Padding(
+                      padding: (moonPhaseDesc.length < 10) ? const EdgeInsets.all(0) : const EdgeInsets.symmetric(vertical: 3.0),
+                      child: Text(
+                        moonPhaseDesc,
+                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.title : Theme.of(context).textTheme.subhead.copyWith(color: Colors.white),
+                        // style: Theme.of(context).textTheme.title,
+                        textAlign: TextAlign.center,
+                      ),
                     )
                   ],
                 ),
@@ -130,7 +138,6 @@ class MoonData extends StatelessWidget {
             ]
           ),
         ),
-        Text(moonPhaseDesc, style: TextStyle(color: Colors.black)),
       ],
     );
   }
