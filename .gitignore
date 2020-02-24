@@ -23,6 +23,7 @@ ios/Flutter/App.framework/flutter_assets/assets/config.json
 **/doc/api/
 .dart_tool/
 .flutter-plugins
+.flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
@@ -73,3 +74,4 @@ build/
 # End of https://www.gitignore.io/api/flutter
 ios/Flutter/Flutter.framework/Flutter
 ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Flutter.podspec
