@@ -23,23 +23,24 @@ class DarkSkyExpanded extends StatelessWidget {
         ),
         margin: EdgeInsets.all(10.0),
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: <Widget>[
-           Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Flexible(
-                      fit: FlexFit.loose,
-                      flex: 1,
-                      child: Column(
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Wrap(
+                    spacing: 50.0,
+                    alignment: WrapAlignment.spaceEvenly,
+                    runSpacing: 20.0,
+                    children: <Widget>[
+                      Column(
                         children: <Widget>[
                           Tooltip(
                             message: 'Current Temperature',
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
                                 Text('${_forecast.currently.temperature.round()}º',
@@ -54,14 +55,11 @@ class DarkSkyExpanded extends StatelessWidget {
                           )
                         ],
                       ),
-                    ),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      flex: 1,
-                      child: Column(
+                      Column(
                         children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -77,87 +75,131 @@ class DarkSkyExpanded extends StatelessWidget {
                           )
                         ],
                       ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
                       Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Icon(FontAwesomeIcons.tint, color: Colors.white, size: 25.0),
-                              Text('${(_forecast.currently.humidity * 100).round()}%',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300])
-                              ),
-                            ],
-                          ),
-                          Text('Humidity',
-                            style: Theme.of(context).textTheme.title,
-                          )
-                        ]
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(FontAwesomeIcons.wind, color: Colors.white),
-                              ),
-                              Text('${_forecast.currently.windSpeed.round()}',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300]),
-                              ),
-                              Text(windLabels[unitIdx],
-                                style: Theme.of(context).textTheme.body1.copyWith(color: Colors.cyan)
-                              )
-                            ],
-                          ),
-                          Text('Wind Speed',
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                        ]
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
-                              ),
-                              Text('${(_forecast.currently.cloudCover * 100).round()}%',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan),
-                              ),
-                            ],
-                          ),
-                          Text('Cloud Cover',
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                        ]
-                      )
+                       children: <Widget>[
+                         Tooltip(
+                           message: 'Low Temperature/Feels Like',
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             mainAxisSize: MainAxisSize.min,
+                             children: <Widget>[
+                               Text('${_forecast.daily.data[0].temperatureMin.round()}º',
+                                 style: Theme.of(context).textTheme.display1.copyWith(color: Colors.tealAccent[400])
+                               ),
+                               (_forecast.daily.data[0].apparentTemperatureMin.round() != _forecast.daily.data[0].temperatureMin.round()) ? Text('/ ${_forecast.daily.data[0].apparentTemperatureMin.round()}º',
+                                 style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white)
+                               ) : Text(''),
+                             ],
+                           ),
+                         ),
+                         Text('Low',
+                           style: Theme.of(context).textTheme.title
+                         )
+                       ],
+                     ),
+                     Column(
+                       children: <Widget>[
+                         Tooltip(
+                           message: 'High Temperature/Feels Like',
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             mainAxisSize: MainAxisSize.min,
+                             children: <Widget>[
+                               Text('${_forecast.daily.data[0].temperatureMax.round()}º',
+                                 style: Theme.of(context).textTheme.display1.copyWith(color: Colors.tealAccent[400])
+                               ),
+                               (_forecast.daily.data[0].apparentTemperatureMax.round() != _forecast.daily.data[0].temperatureMax.round()) ? Text('/ ${_forecast.daily.data[0].apparentTemperatureMax.round()}º',
+                                 style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white)
+                               ) : Text('')
+                             ],
+                           ),
+                         ),
+                         Text('High',
+                           style: Theme.of(context).textTheme.title
+                         )
+                       ],
+                     ),
+                     Padding(
+                       padding: const EdgeInsets.symmetric(vertical: 20.0),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Column(
+                             children: <Widget>[
+                               Row(
+                                 children: <Widget>[
+                                   Icon(FontAwesomeIcons.tint, color: Colors.white, size: 25.0),
+                                   Text('${(_forecast.currently.humidity * 100).round()}%',
+                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300])
+                                   ),
+                                 ],
+                               ),
+                               Text('Humidity',
+                                 style: Theme.of(context).textTheme.title,
+                               )
+                             ]
+                           ),
+                           Column(
+                             children: <Widget>[
+                               Row(
+                                 children: <Widget>[
+                                   Padding(
+                                     padding: const EdgeInsets.only(right: 8.0),
+                                     child: Icon(FontAwesomeIcons.wind, color: Colors.white),
+                                   ),
+                                   Text('${_forecast.currently.windSpeed.round()}',
+                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300]),
+                                   ),
+                                   Text(windLabels[unitIdx],
+                                     style: Theme.of(context).textTheme.body1.copyWith(color: Colors.cyan)
+                                   )
+                                 ],
+                               ),
+                               Text('Wind Speed',
+                                 style: Theme.of(context).textTheme.title,
+                               ),
+                             ]
+                           ),
+                           Column(
+                             children: <Widget>[
+                               Row(
+                                 children: <Widget>[
+                                   Padding(
+                                     padding: const EdgeInsets.only(right: 12.0),
+                                     child: Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
+                                   ),
+                                   Text('${(_forecast.currently.cloudCover * 100).round()}%',
+                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan),
+                                   ),
+                                 ],
+                               ),
+                               Text('Cloud Cover',
+                                 style: Theme.of(context).textTheme.title,
+                               ),
+                             ]
+                           )
+                         ],
+                       ),
+                     ),
+                     Divider(color: Colors.white),
+                     Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
+                       style: Theme.of(context).textTheme.title,
+                     ),
+                     Padding(
+                       padding: const EdgeInsets.only(top: 20.0),
+                       child: ClickableLink(
+                         url: 'https://darksky.net/poweredby/',
+                         child: Text('Powered by Dark Sky',
+                           style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
+                           textAlign: TextAlign.right,
+                         ),
+                       ),
+                     )
                     ],
                   ),
-                ),
-                Divider(color: Colors.white),
-                Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
-                  style: Theme.of(context).textTheme.title,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: ClickableLink(
-                    url: 'https://darksky.net/poweredby/',
-                    child: Text('Powered by Dark Sky',
-                      style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                ),
-              ]
-            )
+                ],
+              ),
+            ),
           ],
         )
       )
