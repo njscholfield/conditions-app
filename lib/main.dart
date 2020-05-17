@@ -28,19 +28,19 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.grey[800],
         textTheme: TextTheme(
-          title: TextStyle(
+          headline6: TextStyle(
             color: Colors.white,
           ),
-          display1: TextStyle(
+          headline4: TextStyle(
             color: Colors.white,
           ),
-          headline: TextStyle(
+          headline5: TextStyle(
             color: Colors.black,
           ),
-          body1: TextStyle(
+          bodyText2: TextStyle(
             fontSize: 16.0
           ),
-          body2: TextStyle(
+          bodyText1: TextStyle(
             fontSize: 16.0,
             decoration: TextDecoration.underline
           ),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         textTheme: TextTheme(
-          body2: TextStyle(
+          bodyText1: TextStyle(
             fontSize: 16.0,
             decoration: TextDecoration.underline
           )
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       margin: const EdgeInsets.all(10.0),
                       child: Text(
                         'Updated: ${DateFormat.MMMMEEEEd().add_jm().format(new DateTime.now())}',
-                        style: Theme.of(context).textTheme.subhead.copyWith(
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
                         ),
@@ -157,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: <Widget>[
                       Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
-                      Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red))
+                      Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red))
                     ],
                   ),
                 );
@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
                       Text('Error loading sun data',
-                        style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Container(
                   margin: const EdgeInsets.all(10.0),
                   child: Text('Enter a location to see the conditions there', 
-                    style: Theme.of(context).textTheme.headline
+                    style: Theme.of(context).textTheme.headline5
                   )
                 );
               }
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
                       Text('Error loading moon data: ${snapshot.error}',
-                        style: Theme.of(context).textTheme.headline.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -249,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           GestureDetector(
             child: Text('About this app',
-              style: Theme.of(context).textTheme.body1.copyWith(decoration: TextDecoration.underline),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(decoration: TextDecoration.underline),
               textAlign: TextAlign.center,
             ),
             onTap: () {

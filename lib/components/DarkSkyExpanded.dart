@@ -22,7 +22,7 @@ class DarkSkyExpanded extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10.0))
         ),
         margin: EdgeInsets.all(10.0),
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -44,13 +44,13 @@ class DarkSkyExpanded extends StatelessWidget {
                               children: <Widget>[
                                 Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
                                 Text('${_forecast.currently.temperature.round()}º',
-                                  style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                                  style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.green[300]),
                                 ),
                               ],
                             ),
                           ),
                           Text(_forecast.currently.summary,
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                             textAlign: TextAlign.center,
                           )
                         ],
@@ -66,12 +66,12 @@ class DarkSkyExpanded extends StatelessWidget {
                                 child: Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
                               ),
                               Text('${(_forecast.currently.precipProbability * 100).round()}%',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
+                                style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.blue[200])
                               ),
                             ],
                           ),
                           Text('Precipitation',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           )
                         ],
                       ),
@@ -84,16 +84,16 @@ class DarkSkyExpanded extends StatelessWidget {
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
                                Text('${_forecast.daily.data[0].temperatureMin.round()}º',
-                                 style: Theme.of(context).textTheme.display1.copyWith(color: Colors.tealAccent[400])
+                                 style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.tealAccent[400])
                                ),
                                (_forecast.daily.data[0].apparentTemperatureMin.round() != _forecast.daily.data[0].temperatureMin.round()) ? Text('/ ${_forecast.daily.data[0].apparentTemperatureMin.round()}º',
-                                 style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white)
+                                 style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white)
                                ) : Text(''),
                              ],
                            ),
                          ),
                          Text('Low',
-                           style: Theme.of(context).textTheme.title
+                           style: Theme.of(context).textTheme.headline6
                          )
                        ],
                      ),
@@ -106,16 +106,16 @@ class DarkSkyExpanded extends StatelessWidget {
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
                                Text('${_forecast.daily.data[0].temperatureMax.round()}º',
-                                 style: Theme.of(context).textTheme.display1.copyWith(color: Colors.tealAccent[400])
+                                 style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.tealAccent[400])
                                ),
                                (_forecast.daily.data[0].apparentTemperatureMax.round() != _forecast.daily.data[0].temperatureMax.round()) ? Text('/ ${_forecast.daily.data[0].apparentTemperatureMax.round()}º',
-                                 style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white)
+                                 style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white)
                                ) : Text('')
                              ],
                            ),
                          ),
                          Text('High',
-                           style: Theme.of(context).textTheme.title
+                           style: Theme.of(context).textTheme.headline6
                          )
                        ],
                      ),
@@ -130,12 +130,12 @@ class DarkSkyExpanded extends StatelessWidget {
                                  children: <Widget>[
                                    Icon(FontAwesomeIcons.tint, color: Colors.white, size: 25.0),
                                    Text('${(_forecast.currently.humidity * 100).round()}%',
-                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300])
+                                     style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.cyan[300])
                                    ),
                                  ],
                                ),
                                Text('Humidity',
-                                 style: Theme.of(context).textTheme.title,
+                                 style: Theme.of(context).textTheme.headline6,
                                )
                              ]
                            ),
@@ -148,15 +148,15 @@ class DarkSkyExpanded extends StatelessWidget {
                                      child: Icon(FontAwesomeIcons.wind, color: Colors.white),
                                    ),
                                    Text('${_forecast.currently.windSpeed.round()}',
-                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan[300]),
+                                     style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.cyan[300]),
                                    ),
                                    Text(windLabels[unitIdx],
-                                     style: Theme.of(context).textTheme.body1.copyWith(color: Colors.cyan)
+                                     style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.cyan)
                                    )
                                  ],
                                ),
                                Text('Wind Speed',
-                                 style: Theme.of(context).textTheme.title,
+                                 style: Theme.of(context).textTheme.headline6,
                                ),
                              ]
                            ),
@@ -169,12 +169,12 @@ class DarkSkyExpanded extends StatelessWidget {
                                      child: Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
                                    ),
                                    Text('${(_forecast.currently.cloudCover * 100).round()}%',
-                                     style: Theme.of(context).textTheme.display1.copyWith(color: Colors.cyan),
+                                     style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.cyan),
                                    ),
                                  ],
                                ),
                                Text('Cloud Cover',
-                                 style: Theme.of(context).textTheme.title,
+                                 style: Theme.of(context).textTheme.headline6,
                                ),
                              ]
                            )
@@ -183,14 +183,14 @@ class DarkSkyExpanded extends StatelessWidget {
                      ),
                      Divider(color: Colors.white),
                      Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
-                       style: Theme.of(context).textTheme.title,
+                       style: Theme.of(context).textTheme.headline6,
                      ),
                      Padding(
                        padding: const EdgeInsets.only(top: 20.0),
                        child: ClickableLink(
                          url: 'https://darksky.net/poweredby/',
                          child: Text('Powered by Dark Sky',
-                           style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
+                           style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
                            textAlign: TextAlign.right,
                          ),
                        ),

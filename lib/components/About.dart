@@ -17,32 +17,38 @@ class About extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              child: Icon(FontAwesomeIcons.code,
-                size: 100.0,
-                color: Colors.blue,
-              ),
-              padding: EdgeInsets.only(bottom: 20.0),
-            ),
-            Text('Sun data is provided by Sunrise-Sunset', style: Theme.of(context).textTheme.headline,),
+            // Padding(
+            //   child: Icon(FontAwesomeIcons.code,
+            //     size: 100.0,
+            //     color: Colors.blue,
+            //   ),
+            //   padding: EdgeInsets.only(bottom: 20.0),
+            // ),
+            Text('Sun data is provided by Sunrise-Sunset', style: Theme.of(context).textTheme.headline5,),
             ClickableLink(
               url: 'https://sunrise-sunset.org/api',
-              child: Text('API Documentation', style: Theme.of(context).textTheme.body2)
+              child: Text('API Documentation', style: Theme.of(context).textTheme.bodyText1)
             ),
             Spacer(),
-            Text('Weather data is provided by Dark Sky', style: Theme.of(context).textTheme.headline),
+            Text('Moon data is provided by HERE', style: Theme.of(context).textTheme.headline5),
+            ClickableLink(
+              url: 'https://developer.here.com/documentation/destination-weather/dev_guide/topics/example-astronomy-forecast.html',
+              child: Text('API Documentation', style: Theme.of(context).textTheme.bodyText1)
+            ),
+            Spacer(),
+            Text('Weather data is provided by Dark Sky', style: Theme.of(context).textTheme.headline5),
             ClickableLink(
               url: 'https://darksky.net/dev',
-              child: Text('Dark Sky API', style: Theme.of(context).textTheme.body2)
+              child: Text('Dark Sky API', style: Theme.of(context).textTheme.bodyText1)
             ),
             Spacer(),
-            Text('Built using Flutter', style: Theme.of(context).textTheme.headline,),
+            Text('Built using Flutter', style: Theme.of(context).textTheme.headline5,),
             ClickableLink(
               url: 'https://flutter.dev',
-              child: Text('flutter.dev', style: Theme.of(context).textTheme.body2)
+              child: Text('flutter.dev', style: Theme.of(context).textTheme.bodyText1)
             ),
             Spacer(),
-            Text('Copyright © 2019 Noah Scholfield', style: Theme.of(context).textTheme.headline.copyWith(color: Colors.green)),
+            Text('Copyright © 2020 Noah Scholfield', style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.green)),
           ],
         ),
       )

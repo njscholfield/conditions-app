@@ -19,7 +19,7 @@ class SunCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Sun', style: Theme.of(context).textTheme.display1),
+          Text('Sun', style: Theme.of(context).textTheme.headline4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -46,7 +46,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.sunrise,
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ]
               ),
@@ -74,7 +74,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.sunset,
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
@@ -93,7 +93,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.civilTwilightEnd,
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ]
               ),

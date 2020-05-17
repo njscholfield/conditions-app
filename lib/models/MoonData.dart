@@ -69,7 +69,7 @@ class MoonData extends StatelessWidget {
                     ),
                     Text(
                       moonrise,
-                      style: Theme.of(context).textTheme.title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ]
                 ),
@@ -102,7 +102,7 @@ class MoonData extends StatelessWidget {
                     ),
                     Text(
                       moonset,
-                      style: Theme.of(context).textTheme.title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ],
                 ),
@@ -127,7 +127,7 @@ class MoonData extends StatelessWidget {
                       padding: (moonPhaseDesc.length < 10) ? const EdgeInsets.all(0) : const EdgeInsets.symmetric(vertical: 3.0),
                       child: Text(
                         moonPhaseDesc,
-                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.title : Theme.of(context).textTheme.subhead.copyWith(color: Colors.white),
+                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.headline6 : Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white),
                         // style: Theme.of(context).textTheme.title,
                         textAlign: TextAlign.center,
                       ),

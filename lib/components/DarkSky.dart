@@ -38,13 +38,13 @@ class DarkSky extends StatelessWidget {
                             children: <Widget>[
                               Icon(FontAwesomeIcons.thermometerHalf, color: Colors.white, size: 25.0),
                               Text(_forecast.currently.temperature.round().toString() + 'º',
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Colors.green[300]),
+                                style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.green[300]),
                               ),
                             ],
                           ),
                         ),
                         Text(_forecast.currently.summary,
-                          style: Theme.of(context).textTheme.title,
+                          style: Theme.of(context).textTheme.headline6,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -63,12 +63,12 @@ class DarkSky extends StatelessWidget {
                               child: Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
                             ),
                             Text('${(_forecast.currently.precipProbability * 100).round()}%',
-                              style: Theme.of(context).textTheme.display1.copyWith(color: Colors.blue[200])
+                              style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.blue[200])
                             ),
                           ],
                         ),
                         Text('Precipitation',
-                          style: Theme.of(context).textTheme.title,
+                          style: Theme.of(context).textTheme.headline6,
                         )
                       ],
                     ),
@@ -77,14 +77,14 @@ class DarkSky extends StatelessWidget {
               ),
               Divider(color: Colors.white),
               Text((_forecast.minutely != null) ? _forecast.minutely.summary : _forecast.hourly.summary,
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: ClickableLink(
                   url: 'https://darksky.net/poweredby/',
                   child: Text('Powered by Dark Sky',
-                    style: Theme.of(context).textTheme.body2.copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
                     textAlign: TextAlign.right,
                   ),
                 ),
