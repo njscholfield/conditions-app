@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,11 +50,13 @@ class _LocationFieldState extends State<LocationField> {
 
   void fetchInfo({Position coords, String location}) async {
     List<Placemark> placemark;
+    List<Location> locations;
     if(coords != null) {
-      placemark = await Geolocator().placemarkFromCoordinates(coords.latitude, coords.longitude);
+      placemark = await placemarkFromCoordinates(coords.latitude, coords.longitude);
     } else {
       try {
-        placemark = await Geolocator().placemarkFromAddress(location);
+        locations = await locationFromAddress(location);
+        placemark = await placemarkFromCoordinates(locations[0].latitude, locations[0].longitude);
       } catch (PlatformException) {
         setState(() {
           invalidLoc = true;
@@ -63,7 +66,9 @@ class _LocationFieldState extends State<LocationField> {
         widget.updateDarkSkyData(Future<Forecast>.value(null));
         return null;
       }
-      coords = placemark[0].position;
+      if(locations != null) {
+        coords = Position(latitude: locations[0].latitude, longitude: locations[0].longitude, accuracy: null, altitude: null, heading: null, speed: null, speedAccuracy: null, timestamp: null);
+      }
     }
     widget.updateSunData(callSunAPI(coords, placemark[0]));
     widget.updateMoonData(callMoonApi(coords));
@@ -151,7 +156,7 @@ class _LocationFieldState extends State<LocationField> {
           prefix: IconButton(
             icon: Icon(FontAwesomeIcons.locationArrow, color: locUsed ? Colors.blueAccent[700] : Colors.grey),
             onPressed: () async {
-              final Position currentLocation = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
+              final Position currentLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
               setState(() {
                 locUsed = true;
               });
