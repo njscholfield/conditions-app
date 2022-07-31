@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:conditions/components/ClickableLink.dart';
 
@@ -17,13 +16,6 @@ class About extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Padding(
-            //   child: Icon(FontAwesomeIcons.code,
-            //     size: 100.0,
-            //     color: Colors.blue,
-            //   ),
-            //   padding: EdgeInsets.only(bottom: 20.0),
-            // ),
             Text('Sun data is provided by Sunrise-Sunset', style: Theme.of(context).textTheme.headline5,),
             ClickableLink(
               url: 'https://sunrise-sunset.org/api',

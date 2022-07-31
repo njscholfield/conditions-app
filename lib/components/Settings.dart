@@ -57,13 +57,13 @@ class SettingsState extends State<Settings> {
                   })
                   .toList(),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   setUnit(dropdownValue);
                   Navigator.pop(context);
                 },
                 child: Text('Save', style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
+                style: ElevatedButton.styleFrom(primary: Colors.blue)
               )
             ],
           )

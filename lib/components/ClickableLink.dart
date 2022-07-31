@@ -8,8 +8,9 @@ class ClickableLink extends StatelessWidget {
   final Widget child;
 
   _launchURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    Uri myurl = Uri.parse(url);
+    if (await canLaunchUrl(myurl)) {
+      await launchUrl(myurl);
     } else {
       throw 'Could not launch $url';
     }
