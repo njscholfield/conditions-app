@@ -45,7 +45,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.astroTwilightBegin,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           )
                         ],
                       ),
@@ -64,7 +64,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.nauticalTwilightBegin,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           )
                         ]
                       ),
@@ -83,7 +83,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.civilTwilightBegin,
-                            style: Theme.of(context).textTheme.headline6
+                            style: Theme.of(context).textTheme.titleLarge
                           )
                         ]
                       ),
@@ -103,7 +103,7 @@ class SunCardExpanded extends StatelessWidget {
                                       size: 40
                                     ),
                                      Icon(
-                                      FontAwesomeIcons.longArrowAltUp,
+                                      FontAwesomeIcons.upLong,
                                       color: Colors.black
                                     ),
                                   ]
@@ -113,7 +113,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                            Text(
                             sunData.sunrise,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ]
                       ),
@@ -133,7 +133,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.solarNoon,
-                            style: Theme.of(context).textTheme.headline6
+                            style: Theme.of(context).textTheme.titleLarge
                           )
                         ]
                       ),
@@ -153,7 +153,7 @@ class SunCardExpanded extends StatelessWidget {
                                       size: 40,
                                     ),
                                      Icon(
-                                      FontAwesomeIcons.longArrowAltDown,
+                                      FontAwesomeIcons.downLong,
                                       color: Colors.black
                                     ),
                                   ],
@@ -163,7 +163,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                            Text(
                             sunData.sunset,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
                       ),
@@ -182,7 +182,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                            Text(
                             sunData.civilTwilightEnd,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ]
                       ),
@@ -201,7 +201,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                            Text(
                             sunData.nauticalTwilightEnd,
-                            style: Theme.of(context).textTheme.headline6
+                            style: Theme.of(context).textTheme.titleLarge
                           )
                         ]
                       ),
@@ -220,7 +220,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.astroTwilightEnd,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           )
                         ],
                       ),
@@ -239,7 +239,7 @@ class SunCardExpanded extends StatelessWidget {
                           ),
                           Text(
                             sunData.dayLength,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -250,14 +250,14 @@ class SunCardExpanded extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text('All times are in your current time zone',
-                   style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white)
+                   style: Theme.of(context).textTheme.bodyMedium.copyWith(color: Colors.white)
                   ),
                 ),
                   ClickableLink(
                   url: 'https://www.timeanddate.com/astronomy/different-types-twilight.html',
                   child: Text(
                     'Twilight, Dawn, and Dusk Info',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white)
+                    style: Theme.of(context).textTheme.bodyLarge.copyWith(color: Colors.white)
                   ),
                 )
               ],

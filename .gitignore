@@ -75,3 +75,4 @@ build/
 ios/Flutter/Flutter.framework/Flutter
 ios/Flutter/flutter_export_environment.sh
 ios/Flutter/Flutter.podspec
+assets/keys/

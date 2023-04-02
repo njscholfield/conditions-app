@@ -19,7 +19,7 @@ class SunCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Sun', style: Theme.of(context).textTheme.headline4),
+          Text('Sun', style: Theme.of(context).textTheme.headlineMedium),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -37,7 +37,7 @@ class SunCard extends StatelessWidget {
                             size: 40
                           ),
                           Icon(
-                            FontAwesomeIcons.longArrowAltUp,
+                            FontAwesomeIcons.upLong,
                             color: Colors.black
                           ),
                         ]
@@ -46,7 +46,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.sunrise,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ]
               ),
@@ -65,7 +65,7 @@ class SunCard extends StatelessWidget {
                             size: 40,
                           ),
                           Icon(
-                            FontAwesomeIcons.longArrowAltDown,
+                            FontAwesomeIcons.downLong,
                             color: Colors.black
                           ),
                         ],
@@ -74,7 +74,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.sunset,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ],
               ),
@@ -93,7 +93,7 @@ class SunCard extends StatelessWidget {
                   ),
                   Text(
                     sunData.civilTwilightEnd,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ]
               ),

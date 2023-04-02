@@ -5,21 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:intl/intl.dart';
-import 'package:darksky_weather/darksky_weather_io.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart'; 
 import 'package:flutter/services.dart';
 
 import 'package:conditions/models/SunData.dart';
 import 'package:conditions/models/MoonData.dart';
+import 'package:conditions/models/WeatherKit.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateSunData, this.updateMoonData, this.updateDarkSkyData,
+  LocationField(this.updateSunData, this.updateMoonData, this.updateWeatherKitData,
       this.updateUnitIdx);
 
   final Function(Future<SunData>) updateSunData;
   final Function(Future<List<MoonData>>) updateMoonData;
-  final Function(Future<Forecast>) updateDarkSkyData;
+  final Function(Future<WeatherKitData>) updateWeatherKitData;
   final Function(int) updateUnitIdx;
   _LocationFieldState createState() => new _LocationFieldState();
 }
@@ -29,23 +28,40 @@ class _LocationFieldState extends State<LocationField> {
   final TextEditingController locationController = TextEditingController();
   // Geolocator geolocator = Geolocator();
   bool invalidLoc;
-  String _darkSkyKey;
   String _hereAppId;
   String _hereAppCode;
+  WeatherKit weatherKit;
 
   // Load in the Dark Sky API Key from the config file
   Future<String> loadAsset() async {
     return await rootBundle.loadString('assets/config.json');
+  }
+  // Load in the WeatherKit API key
+  Future<String> loadWeatherKitKey() async {
+    return await rootBundle.loadString('assets/keys/weatherkit_key.p8');
   }
 
   // Assign key to variable
   _LocationFieldState() {
     loadAsset().then((val) => setState(() {
           final Map<String, dynamic> data = jsonDecode(val);
-          _darkSkyKey = data['dark_sky_key'];
           _hereAppId = data['here_app_id'];
           _hereAppCode = data['here_app_code'];
+          initWeatherKit(data);
         }));
+  }
+
+  initWeatherKit(Map<String, dynamic> config) async {
+    final key = await loadWeatherKitKey();
+    setState(() {
+      weatherKit = WeatherKit(
+          bundleId: config['bundle_id'],
+          teamId: config['team_id'],
+          keyId: config['key_id'],
+          pem: key,
+          expiresIn: const Duration(hours: 1)
+      );
+    });
   }
 
   Future<Position> _determinePosition() async {
@@ -102,7 +118,7 @@ class _LocationFieldState extends State<LocationField> {
         });
         widget.updateSunData(Future<SunData>.value(null));
         widget.updateMoonData(Future<List<MoonData>>.value(null));
-        widget.updateDarkSkyData(Future<Forecast>.value(null));
+        widget.updateWeatherKitData(Future<WeatherKitData>.value(null));
         return null;
       }
       if (locations != null) {
@@ -119,7 +135,7 @@ class _LocationFieldState extends State<LocationField> {
     }
     widget.updateSunData(callSunAPI(coords, placemark[0]));
     widget.updateMoonData(callMoonApi(coords));
-    widget.updateDarkSkyData(callDarkSkyAPI(coords));
+    widget.updateWeatherKitData(callWeatherKitAPI(coords));
   }
 
   Future<SunData> callSunAPI(Position coords, Placemark placemark) async {
@@ -128,9 +144,8 @@ class _LocationFieldState extends State<LocationField> {
         '${placemark.locality}, ${placemark.administrativeArea}';
     locationController.text = placeName;
 
-    // SSL Cert Expired so had to change it to http, at least for now
     Uri sunApi = Uri.parse(
-        'http://api.sunrise-sunset.org/json?lat=${coords.latitude}&lng=${coords.longitude}&date=$today&formatted=0');
+        'https://api.sunrise-sunset.org/json?lat=${coords.latitude}&lng=${coords.longitude}&date=$today&formatted=0');
     final response = await http.get(sunApi);
 
     if (response.statusCode == 200) {
@@ -164,18 +179,8 @@ class _LocationFieldState extends State<LocationField> {
     }
   }
 
-  Future<Forecast> callDarkSkyAPI(Position coords) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int unitIdx = (prefs.getInt('unit') ?? 3);
-    widget.updateUnitIdx(unitIdx);
-    var darksky = new DarkSkyWeather(_darkSkyKey,
-        language: Language.English, units: Units.values[unitIdx]);
-    var forecast = await darksky.getForecast(coords.latitude, coords.longitude);
-
-    if (forecast.currently == null) {
-      return Future.error('Error loading Dark Sky data');
-    }
-    return forecast;
+  Future<WeatherKitData> callWeatherKitAPI(Position coords) async {
+    return weatherKit.fetchWeatherData( latitude: coords.latitude, longitude: coords.longitude, timezone: 'US/Eastern');
   }
 
   @override
@@ -222,7 +227,7 @@ class _LocationFieldState extends State<LocationField> {
               },
             ),
             suffix: IconButton(
-              icon: Icon(FontAwesomeIcons.search),
+              icon: Icon(FontAwesomeIcons.magnifyingGlass),
               onPressed: () {
                 setState(() {
                   locUsed = false;

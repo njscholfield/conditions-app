@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:darksky_weather/darksky_weather_io.dart';
 
-import 'package:conditions/components/DarkSky.dart';
-import 'package:conditions/components/DarkSkyExpanded.dart';
 import 'package:conditions/components/SunCard.dart';
 import 'package:conditions/components/SunCardExpanded.dart';
 import 'package:conditions/components/MoonCard.dart';
@@ -12,9 +9,12 @@ import 'package:conditions/components/MoonCardExpanded.dart';
 import 'package:conditions/components/LocationField.dart';
 import 'package:conditions/components/About.dart';
 import 'package:conditions/components/Settings.dart';
+import 'package:conditions/components/CurrentConditions.dart';
+import 'package:conditions/components/CurrentConditionsExpanded.dart';
 
 import 'package:conditions/models/SunData.dart';
 import 'package:conditions/models/MoonData.dart';
+import 'package:conditions/models/WeatherKit.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,19 +28,19 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.grey[800],
         textTheme: TextTheme(
-          headline6: TextStyle(
+          titleLarge: TextStyle(
             color: Colors.white,
           ),
-          headline4: TextStyle(
+          headlineMedium: TextStyle(
             color: Colors.white,
           ),
-          headline5: TextStyle(
+          headlineSmall: TextStyle(
             color: Colors.black,
           ),
-          bodyText2: TextStyle(
+          bodyMedium: TextStyle(
             fontSize: 16.0
           ),
-          bodyText1: TextStyle(
+          bodyLarge: TextStyle(
             fontSize: 16.0,
             decoration: TextDecoration.underline
           ),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         textTheme: TextTheme(
-          bodyText1: TextStyle(
+          bodyLarge: TextStyle(
             fontSize: 16.0,
             decoration: TextDecoration.underline
           )
@@ -72,7 +72,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<SunData> _sunData;
   Future<List<MoonData>> _moonData;
-  Future<Forecast> _darkSky;
+  Future<WeatherKitData> _weatherKit;
   int _unitIdx;
 
   void updateSunData(Future<SunData> newSunData) {
@@ -87,9 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void updateDarkSkyData(Future<Forecast> newDarkSky) {
+  void updateWeatherKitData(Future<WeatherKitData> newWeatherKit) {
     setState(() {
-      _darkSky = newDarkSky;
+      _weatherKit = newWeatherKit;
     });
   }
 
@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FontAwesomeIcons.cog),
+            icon: Icon(FontAwesomeIcons.gear),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
@@ -119,9 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          LocationField(updateSunData, updateMoonData, updateDarkSkyData, updateUnitIdx),
-          FutureBuilder<Forecast>(
-            future: _darkSky,
+          LocationField(updateSunData, updateMoonData, updateWeatherKitData, updateUnitIdx),
+          FutureBuilder<WeatherKitData>(
+            future: _weatherKit,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
                 return Container();
@@ -132,10 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       margin: const EdgeInsets.all(10.0),
                       child: Text(
                         'Updated: ${DateFormat.MMMMEEEEd().add_jm().format(new DateTime.now())}',
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepOrangeAccent,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -143,21 +143,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return DarkSkyExpanded(snapshot.data, _unitIdx);
+                            return CurrentConditionsExpanded(snapshot.data, 1);
                           },
                         ));
                       },
-                      child: DarkSky(snapshot.data),
+                      child: CurrentConditions(snapshot.data),
                     ),
                   ],
                 );
-              } else if(snapshot.hasError) {
+              } else if (snapshot.hasError) {
                 return Container(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
-                      Text('Error loading Dark Sky data', style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red))
+                      Icon(FontAwesomeIcons.circleExclamation,
+                          color: Colors.red),
+                      Text('Error loading Weather data',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              .copyWith(color: Colors.red))
                     ],
                   ),
                 );
@@ -192,9 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading sun data',
-                        style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headlineSmall.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -203,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Container(
                   margin: const EdgeInsets.all(10.0),
                   child: Text('Enter a location to see the conditions there', 
-                    style: Theme.of(context).textTheme.headline5
+                    style: Theme.of(context).textTheme.headlineSmall
                   )
                 );
               }
@@ -235,9 +240,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red),
+                      Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading moon data: ${snapshot.error}',
-                        style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headlineSmall.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -249,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           GestureDetector(
             child: Text('About this app',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(decoration: TextDecoration.underline),
+              style: Theme.of(context).textTheme.bodyLarge.copyWith(decoration: TextDecoration.underline),
               textAlign: TextAlign.center,
             ),
             onTap: () {

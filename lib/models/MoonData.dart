@@ -60,7 +60,7 @@ class MoonData extends StatelessWidget {
                               size: 40
                             ),
                             Icon(
-                              FontAwesomeIcons.longArrowAltUp,
+                              FontAwesomeIcons.upLong,
                               color: Colors.black
                             ),
                           ]
@@ -69,7 +69,7 @@ class MoonData extends StatelessWidget {
                     ),
                     Text(
                       moonrise,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ]
                 ),
@@ -93,7 +93,7 @@ class MoonData extends StatelessWidget {
                               size: 40,
                             ),
                             Icon(
-                              FontAwesomeIcons.longArrowAltDown,
+                              FontAwesomeIcons.upLong,
                               color: Colors.black
                             ),
                           ],
@@ -102,7 +102,7 @@ class MoonData extends StatelessWidget {
                     ),
                     Text(
                       moonset,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
                 ),
@@ -127,7 +127,7 @@ class MoonData extends StatelessWidget {
                       padding: (moonPhaseDesc.length < 10) ? const EdgeInsets.all(0) : const EdgeInsets.symmetric(vertical: 3.0),
                       child: Text(
                         moonPhaseDesc,
-                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.headline6 : Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white),
+                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.titleMedium.copyWith(color: Colors.white),
                         // style: Theme.of(context).textTheme.title,
                         textAlign: TextAlign.center,
                       ),

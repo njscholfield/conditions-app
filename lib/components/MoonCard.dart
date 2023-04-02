@@ -18,7 +18,7 @@ class MoonCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Moon', style: Theme.of(context).textTheme.headline4),
+          Text('Moon', style: Theme.of(context).textTheme.headlineMedium),
           moonData,
         ],
       ),

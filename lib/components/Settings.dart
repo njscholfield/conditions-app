@@ -63,7 +63,7 @@ class SettingsState extends State<Settings> {
                   Navigator.pop(context);
                 },
                 child: Text('Save', style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(primary: Colors.blue)
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue)
               )
             ],
           )
