@@ -28,7 +28,6 @@ class DayWeatherConditions {
   DateTime moonrise;
   DateTime moonset;
   double precipitationAmount;
-  Map<String, double> precipitationAmountByType;
   double precipitationChance;
   String precipitationType;
   double snowfallAmount;
@@ -57,7 +56,6 @@ class DayWeatherConditions {
     this.moonrise,
     this.moonset,
     this.precipitationAmount,
-    this.precipitationAmountByType,
     this.precipitationChance,
     this.precipitationType,
     this.snowfallAmount,
@@ -88,7 +86,6 @@ class DayWeatherConditions {
       moonrise: (json.containsKey('moonrise')) ? DateTime.parse(json['moonrise']) : null,
       moonset: (json.containsKey('moonset')) ? DateTime.parse(json['moonset']) : null,
       precipitationAmount: json['precipitationAmount'],
-      precipitationAmountByType: Map<String, double>.from(json['precipitationAmountByType']),
       precipitationChance: json['precipitationChance'],
       precipitationType: json['precipitationType'],
       snowfallAmount: json['snowfallAmount'],
@@ -118,7 +115,6 @@ class DaypartForecast {
   String conditionCode;
   double humidity;
   double precipitationAmount;
-  Map<String, double> precipitationAmountByType;
   double precipitationChance;
   String precipitationType;
   double snowfallAmount;
@@ -132,7 +128,6 @@ class DaypartForecast {
     this.conditionCode,
     this.humidity,
     this.precipitationAmount,
-    this.precipitationAmountByType,
     this.precipitationChance,
     this.precipitationType,
     this.snowfallAmount,
@@ -150,7 +145,6 @@ class DaypartForecast {
       conditionCode: json['conditionCode'],
       humidity: json['humidity'],
       precipitationAmount: json['precipitationAmount'],
-      precipitationAmountByType: Map<String, double>.from(json['precipitationAmountByType']),
       precipitationChance: json['precipitationChance'],
       precipitationType: json['precipitationType'],
       snowfallAmount: json['snowfallAmount'],

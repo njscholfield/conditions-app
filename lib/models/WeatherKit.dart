@@ -11,7 +11,6 @@ class WeatherKit {
 
   WeatherKit({ bundleId, teamId, keyId, pem, expiresIn}) {
     this.token = generateJWT(bundleId: bundleId, teamId: teamId, keyId: keyId, pem: pem, expiresIn: expiresIn);
-    print(this.token);
   }
 
   String generateJWT({
