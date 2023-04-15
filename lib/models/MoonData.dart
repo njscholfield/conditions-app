@@ -26,7 +26,7 @@ class MoonData extends StatelessWidget {
     return new MoonData(
       moonrise: addSpace(json['moonrise']),
       moonset: addSpace(json['moonset']),
-      moonPhase: calculatePhase(json['moonPhase']),
+      moonPhase: calculatePhase(json['moonPhase'].toDouble()),
       moonPhaseDesc: json['moonPhaseDesc'],
       date: DateTime.parse(json['utcTime'])
     );
