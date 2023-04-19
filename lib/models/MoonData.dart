@@ -93,7 +93,7 @@ class MoonData extends StatelessWidget {
                               size: 40,
                             ),
                             Icon(
-                              FontAwesomeIcons.upLong,
+                              FontAwesomeIcons.downLong,
                               color: Colors.black
                             ),
                           ],
