@@ -13,24 +13,22 @@ import 'package:conditions/models/MoonData.dart';
 import 'package:conditions/models/WeatherKit.dart';
 
 class LocationField extends StatefulWidget {
-  LocationField(this.updateSunData, this.updateMoonData, this.updateWeatherKitData,
-      this.updateUnitIdx);
+  LocationField(this.updateSunData, this.updateMoonData, this.updateWeatherKitData);
 
-  final Function(Future<SunData>) updateSunData;
-  final Function(Future<List<MoonData>>) updateMoonData;
-  final Function(Future<WeatherKitData>) updateWeatherKitData;
-  final Function(int) updateUnitIdx;
+  final Function(Future<SunData?>) updateSunData;
+  final Function(Future<List<MoonData>?>) updateMoonData;
+  final Function(Future<WeatherKitData?>) updateWeatherKitData;
   _LocationFieldState createState() => new _LocationFieldState();
 }
 
 class _LocationFieldState extends State<LocationField> {
-  bool locUsed;
+  bool locUsed = false;
   final TextEditingController locationController = TextEditingController();
   // Geolocator geolocator = Geolocator();
-  bool invalidLoc;
-  String _hereAppId;
-  String _hereAppCode;
-  WeatherKit weatherKit;
+  bool invalidLoc = false;
+  late String _hereAppId;
+  late String _hereAppCode;
+  late WeatherKit weatherKit;
 
   // Load in the Dark Sky API Key from the config file
   Future<String> loadAsset() async {
@@ -41,14 +39,23 @@ class _LocationFieldState extends State<LocationField> {
     return await rootBundle.loadString('assets/keys/weatherkit_key.p8');
   }
 
-  // Assign key to variable
-  _LocationFieldState() {
+  @override
+  void initState() {
+    locationController.text = 'Pittsburgh, PA';
     loadAsset().then((val) => setState(() {
           final Map<String, dynamic> data = jsonDecode(val);
           _hereAppId = data['here_app_id'];
           _hereAppCode = data['here_app_code'];
           initWeatherKit(data);
         }));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    locationController.dispose();
+    super.dispose();
   }
 
   initWeatherKit(Map<String, dynamic> config) async {
@@ -101,7 +108,7 @@ class _LocationFieldState extends State<LocationField> {
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
   }
 
-  void fetchInfo({Position coords, String location}) async {
+  void fetchInfo({Position? coords, String? location}) async {
     List<Placemark> placemark;
     List<Location> locations;
     if (coords != null) {
@@ -109,36 +116,34 @@ class _LocationFieldState extends State<LocationField> {
           await placemarkFromCoordinates(coords.latitude, coords.longitude);
     } else {
       try {
-        locations = await locationFromAddress(location);
+        locations = await locationFromAddress(location!);
         placemark = await placemarkFromCoordinates(
             locations[0].latitude, locations[0].longitude);
       } on PlatformException catch (_) {
         setState(() {
           invalidLoc = true;
         });
-        widget.updateSunData(Future<SunData>.value(null));
-        widget.updateMoonData(Future<List<MoonData>>.value(null));
-        widget.updateWeatherKitData(Future<WeatherKitData>.value(null));
+        widget.updateSunData(Future<SunData?>.value(null));
+        widget.updateMoonData(Future<List<MoonData>?>.value(null));
+        widget.updateWeatherKitData(Future<WeatherKitData?>.value(null));
         return null;
       }
-      if (locations != null) {
-        coords = Position(
-            latitude: locations[0].latitude,
-            longitude: locations[0].longitude,
-            accuracy: null,
-            altitude: null,
-            heading: null,
-            speed: null,
-            speedAccuracy: null,
-            timestamp: null);
-      }
+      coords = Position(
+          latitude: locations[0].latitude,
+          longitude: locations[0].longitude,
+          accuracy: 0.0,
+          altitude: 0.0,
+          heading: 0.0,
+          speed: 0,
+          speedAccuracy: 0.0,
+          timestamp: DateTime.now());
     }
     widget.updateSunData(callSunAPI(coords, placemark[0]));
     widget.updateMoonData(callMoonApi(coords));
     widget.updateWeatherKitData(callWeatherKitAPI(coords));
   }
 
-  Future<SunData> callSunAPI(Position coords, Placemark placemark) async {
+  Future<SunData?> callSunAPI(Position coords, Placemark placemark) async {
     final String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
     final String placeName =
         '${placemark.locality}, ${placemark.administrativeArea}';
@@ -181,21 +186,6 @@ class _LocationFieldState extends State<LocationField> {
 
   Future<WeatherKitData> callWeatherKitAPI(Position coords) async {
     return weatherKit.fetchWeatherData( latitude: coords.latitude, longitude: coords.longitude, timezone: 'US/Eastern');
-  }
-
-  @override
-  void initState() {
-    locUsed = false;
-    invalidLoc = false;
-    locationController.text = 'Pittsburgh, PA';
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    locationController.dispose();
-    super.dispose();
   }
 
   @override

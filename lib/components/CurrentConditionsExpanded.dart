@@ -44,7 +44,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                               children: <Widget>[
                                 Icon(FontAwesomeIcons.temperatureHalf, color: Colors.white, size: 25.0),
                                 Text('${_forecast.currentWeather.temperature.round()}º',
-                                  style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.green[300]),
+                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.green[300]),
                                 ),
                               ],
                             ),
@@ -66,7 +66,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                 child: Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
                               ),
                               Text('${(_forecast.forecastDaily.days[0].precipitationChance * 100).round()}%',
-                                style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.blue[200])
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.blue[200])
                               ),
                             ],
                           ),
@@ -84,7 +84,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
                                Text('${_forecast.forecastDaily.days[0].temperatureMin.round()}º',
-                                 style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.tealAccent[400])
+                                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.tealAccent[400])
                                ),
                              ],
                            ),
@@ -103,7 +103,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
                                Text('${_forecast.forecastDaily.days[0].temperatureMax.round()}º',
-                                 style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.tealAccent[400])
+                                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.tealAccent[400])
                                ),
                              ],
                            ),
@@ -124,7 +124,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                  children: <Widget>[
                                    Icon(FontAwesomeIcons.droplet, color: Colors.white, size: 25.0),
                                    Text('${(_forecast.currentWeather.humidity * 100).round()}%',
-                                     style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.cyan[300])
+                                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan[300])
                                    ),
                                  ],
                                ),
@@ -142,10 +142,10 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                      child: Icon(FontAwesomeIcons.wind, color: Colors.white),
                                    ),
                                    Text('${_forecast.currentWeather.windSpeed.round()}',
-                                     style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.cyan[300]),
+                                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan[300]),
                                    ),
                                    Text(windLabels[unitIdx],
-                                     style: Theme.of(context).textTheme.bodyMedium.copyWith(color: Colors.cyan)
+                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.cyan)
                                    )
                                  ],
                                ),
@@ -163,7 +163,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                      child: Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
                                    ),
                                    Text('${(_forecast.currentWeather.cloudCover * 100).round()}%',
-                                     style: Theme.of(context).textTheme.headlineMedium.copyWith(color: Colors.cyan),
+                                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan),
                                    ),
                                  ],
                                ),
@@ -184,7 +184,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                        child: ClickableLink(
                          url: _forecast.currentWeather.metadata.attributionUrl,
                          child: Text('Powered by  Weather',
-                           style: Theme.of(context).textTheme.bodyLarge.copyWith(color: Colors.white),
+                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
                            textAlign: TextAlign.right,
                          ),
                        ),

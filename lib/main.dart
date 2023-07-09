@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -70,32 +70,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<SunData> _sunData;
-  Future<List<MoonData>> _moonData;
-  Future<WeatherKitData> _weatherKit;
-  int _unitIdx;
+  Future<SunData?>? _sunData;
+  Future<List<MoonData>?>? _moonData;
+  Future<WeatherKitData?>? _weatherKit;
 
-  void updateSunData(Future<SunData> newSunData) {
+  void updateSunData(Future<SunData?> newSunData) {
     setState(() {
       _sunData = newSunData;
     });
   }
 
-  void updateMoonData(Future<List<MoonData>> newMoonData) {
+  void updateMoonData(Future<List<MoonData>?> newMoonData) {
     setState(() {
       _moonData = newMoonData;
     });
   }
 
-  void updateWeatherKitData(Future<WeatherKitData> newWeatherKit) {
+  void updateWeatherKitData(Future<WeatherKitData?> newWeatherKit) {
     setState(() {
       _weatherKit = newWeatherKit;
-    });
-  }
-
-  void updateUnitIdx(int newUnitIdx) {
-    setState(() {
-      _unitIdx = newUnitIdx;
     });
   }
 
@@ -119,8 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          LocationField(updateSunData, updateMoonData, updateWeatherKitData, updateUnitIdx),
-          FutureBuilder<WeatherKitData>(
+          LocationField(updateSunData, updateMoonData, updateWeatherKitData),
+          FutureBuilder<WeatherKitData?>(
             future: _weatherKit,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -132,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       margin: const EdgeInsets.all(10.0),
                       child: Text(
                         'Updated: ${DateFormat.MMMMEEEEd().add_jm().format(new DateTime.now())}',
-                        style: Theme.of(context).textTheme.titleMedium.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.deepOrangeAccent,
                             ),
@@ -143,11 +136,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return CurrentConditionsExpanded(snapshot.data, 1);
+                            return CurrentConditionsExpanded(snapshot.data!, 1);
                           },
                         ));
                       },
-                      child: CurrentConditions(snapshot.data),
+                      child: CurrentConditions(snapshot.data!),
                     ),
                   ],
                 );
@@ -162,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
-                              .copyWith(color: Colors.red))
+                              ?.copyWith(color: Colors.red))
                     ],
                   ),
                 );
@@ -171,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             }
           ),
-          FutureBuilder<SunData>(
+          FutureBuilder<SunData?>(
             future: _sunData,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -185,12 +178,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           appBar: AppBar(
                             title: Text('Sun Details'),
                           ),
-                          body: SunCardExpanded(snapshot.data)
+                          body: SunCardExpanded(snapshot.data!)
                         );
                       },
                     ));
                   },
-                  child: SunCard(snapshot.data),
+                  child: SunCard(snapshot.data!),
                 );
               } else if(snapshot.hasError) {
                 return Container(
@@ -199,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading sun data',
-                        style: Theme.of(context).textTheme.headlineSmall.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -214,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             }
           ),
-          FutureBuilder<List<MoonData>>(
+          FutureBuilder<List<MoonData>?>(
             future: _moonData,
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -228,12 +221,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           appBar: AppBar(
                             title: Text('Moon Details'),
                           ),
-                          body: MoonCardExpanded(snapshot.data)
+                          body: MoonCardExpanded(snapshot.data!)
                         );
                       },
                     ));
                   },
-                  child: MoonCard(snapshot.data[0]),
+                  child: MoonCard(snapshot.data![0]),
                 );
               } else if(snapshot.hasError) {
                 return Container(
@@ -242,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading moon data: ${snapshot.error}',
-                        style: Theme.of(context).textTheme.headlineSmall.copyWith(color: Colors.red)
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.red)
                       ),
                     ],
                   ),
@@ -254,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           GestureDetector(
             child: Text('About this app',
-              style: Theme.of(context).textTheme.bodyLarge.copyWith(decoration: TextDecoration.underline),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(decoration: TextDecoration.underline),
               textAlign: TextAlign.center,
             ),
             onTap: () {

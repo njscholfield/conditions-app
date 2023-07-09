@@ -13,16 +13,16 @@ class SunData {
   final String astroTwilightEnd;
 
   SunData(
-    {this.sunrise,
-    this.sunset,
-    this.solarNoon,
-    this.dayLength,
-    this.civilTwilightBegin,
-    this.civilTwilightEnd,
-    this.nauticalTwilightBegin,
-    this.nauticalTwilightEnd,
-    this.astroTwilightBegin,
-    this.astroTwilightEnd
+    {required this.sunrise,
+    required this.sunset,
+    required this.solarNoon,
+    required this.dayLength,
+    required this.civilTwilightBegin,
+    required this.civilTwilightEnd,
+    required this.nauticalTwilightBegin,
+    required this.nauticalTwilightEnd,
+    required this.astroTwilightBegin,
+    required this.astroTwilightEnd
   });
 
   factory SunData.fromJson(Map<String, dynamic> json) {

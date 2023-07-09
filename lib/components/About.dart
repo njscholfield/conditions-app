@@ -40,7 +40,7 @@ class About extends StatelessWidget {
               child: Text('flutter.dev', style: Theme.of(context).textTheme.bodyLarge)
             ),
             Spacer(),
-            Text('Copyright © 2023 Noah Scholfield', style: Theme.of(context).textTheme.headlineSmall.copyWith(color: Colors.green)),
+            Text('Copyright © 2023 Noah Scholfield', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.green)),
           ],
         ),
       )

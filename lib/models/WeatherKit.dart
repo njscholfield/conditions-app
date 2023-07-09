@@ -7,18 +7,18 @@ import 'package:conditions/models/DailyForecast.dart';
 import 'package:conditions/models/CurrentWeather.dart';
 
 class WeatherKit {
-  String token;
+  String token = '';
 
   WeatherKit({ bundleId, teamId, keyId, pem, expiresIn}) {
     this.token = generateJWT(bundleId: bundleId, teamId: teamId, keyId: keyId, pem: pem, expiresIn: expiresIn);
   }
 
   String generateJWT({
-    String bundleId,
-    String teamId,
-    String keyId,
-    String pem,
-    Duration expiresIn,
+    required String bundleId,
+    required String teamId,
+    required String keyId,
+    required String pem,
+    required Duration expiresIn,
   }) {
     final jwt = JWT(
       {
@@ -62,8 +62,8 @@ class WeatherKitData {
   final DailyForecast forecastDaily;
 
   WeatherKitData({
-    this.currentWeather,
-    this.forecastDaily
+    required this.currentWeather,
+    required this.forecastDaily
   });
 
   factory WeatherKitData.fromJson(Map<String, dynamic> json) {

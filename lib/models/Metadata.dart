@@ -9,14 +9,14 @@ class Metadata {
   final int version;
 
   Metadata({
-    this.attributionUrl,
-    this.expireTime,
-    this.latitude,
-    this.longitude,
-    this.readTime,
-    this.reportedTime,
-    this.units,
-    this.version,
+    required this.attributionUrl,
+    required this.expireTime,
+    required this.latitude,
+    required this.longitude,
+    required this.readTime,
+    required this.reportedTime,
+    required this.units,
+    required this.version,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {

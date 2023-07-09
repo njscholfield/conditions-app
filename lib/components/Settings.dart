@@ -6,7 +6,7 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
-  int dropdownValue;
+  int dropdownValue = 3;
 
   void fetchCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,7 +43,8 @@ class SettingsState extends State<Settings> {
               Text('Select the units you would like:'),
               DropdownButton<int>(
                 value: dropdownValue,
-                onChanged: (int newValue) {
+                onChanged: (int? newValue) {
+                  if(newValue == null) return;
                   setState(() {
                     dropdownValue = newValue;
                   });

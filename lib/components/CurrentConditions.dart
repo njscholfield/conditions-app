@@ -44,7 +44,7 @@ class CurrentConditions extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
-                                    .copyWith(color: Colors.green[300]),
+                                    ?.copyWith(color: Colors.green[300]),
                               ),
                             ],
                           ),
@@ -75,7 +75,7 @@ class CurrentConditions extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
-                                    .copyWith(color: Colors.blue[200])),
+                                    ?.copyWith(color: Colors.blue[200])),
                           ],
                         ),
                         Text(
@@ -103,7 +103,7 @@ class CurrentConditions extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        .copyWith(color: Colors.white),
+                        ?.copyWith(color: Colors.white),
                     textAlign: TextAlign.right,
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClickableLink extends StatelessWidget {
-  ClickableLink({this.url, this.child});
+  ClickableLink({required this.url, required this.child});
 
   final String url;
   final Widget child;

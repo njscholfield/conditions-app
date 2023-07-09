@@ -5,8 +5,8 @@ class DailyForecast {
   final List<DayWeatherConditions> days;
 
   DailyForecast({
-    this.metadata,
-    this.days
+    required this.metadata,
+    required this.days
   });
 
   factory DailyForecast.fromJson(Map<String, dynamic> json) {
@@ -25,42 +25,42 @@ class DayWeatherConditions {
   String conditionCode;
   int maxUvIndex;
   String moonPhase;
-  DateTime moonrise;
-  DateTime moonset;
+  DateTime? moonrise;
+  DateTime? moonset;
   double precipitationAmount;
   double precipitationChance;
   String precipitationType;
   double snowfallAmount;
-  DateTime solarMidnight;
-  DateTime solarNoon;
-  DateTime sunrise;
-  DateTime sunriseCivil;
-  DateTime sunriseNautical;
-  DateTime sunriseAstronomical;
-  DateTime sunset;
-  DateTime sunsetCivil;
-  DateTime sunsetNautical;
-  DateTime sunsetAstronomical;
+  DateTime? solarMidnight;
+  DateTime? solarNoon;
+  DateTime? sunrise;
+  DateTime? sunriseCivil;
+  DateTime? sunriseNautical;
+  DateTime? sunriseAstronomical;
+  DateTime? sunset;
+  DateTime? sunsetCivil;
+  DateTime? sunsetNautical;
+  DateTime? sunsetAstronomical;
   double temperatureMax;
   double temperatureMin;
   DaypartForecast daytimeForecast;
   DaypartForecast overnightForecast;
-  DaypartForecast restOfDayForecast;
+  DaypartForecast? restOfDayForecast;
 
   DayWeatherConditions({
-    this.forecastStart,
-    this.forecastEnd,
-    this.conditionCode,
-    this.maxUvIndex,
-    this.moonPhase,
+    required this.forecastStart,
+    required this.forecastEnd,
+    required this.conditionCode,
+    required this.maxUvIndex,
+    required this.moonPhase,
     this.moonrise,
     this.moonset,
-    this.precipitationAmount,
-    this.precipitationChance,
-    this.precipitationType,
-    this.snowfallAmount,
-    this.solarMidnight,
-    this.solarNoon,
+    required this.precipitationAmount,
+    required this.precipitationChance,
+    required this.precipitationType,
+    required this.snowfallAmount,
+    required this.solarMidnight,
+    required this.solarNoon,
     this.sunrise,
     this.sunriseCivil,
     this.sunriseNautical,
@@ -69,10 +69,10 @@ class DayWeatherConditions {
     this.sunsetCivil,
     this.sunsetNautical,
     this.sunsetAstronomical,
-    this.temperatureMax,
-    this.temperatureMin,
-    this.daytimeForecast,
-    this.overnightForecast,
+    required this.temperatureMax,
+    required this.temperatureMin,
+    required this.daytimeForecast,
+    required this.overnightForecast,
     this.restOfDayForecast
   });
 
@@ -103,7 +103,7 @@ class DayWeatherConditions {
       temperatureMin: json['temperatureMin'],
       daytimeForecast: DaypartForecast.fromJson(json['daytimeForecast']),
       overnightForecast: DaypartForecast.fromJson(json['overnightForecast']),
-      restOfDayForecast: DaypartForecast.fromJson(json['restOfDayForecast'])
+      restOfDayForecast: (json.containsKey('restOfDayForecast')) ?  DaypartForecast.fromJson(json['restOfDayForecast']) : null
     );
   }
 }
@@ -122,22 +122,20 @@ class DaypartForecast {
   double windSpeed;
 
   DaypartForecast({
-    this.forecastStart,
-    this.forecastEnd,
-    this.cloudCover,
-    this.conditionCode,
-    this.humidity,
-    this.precipitationAmount,
-    this.precipitationChance,
-    this.precipitationType,
-    this.snowfallAmount,
-    this.windDirection,
-    this.windSpeed,
+    required this.forecastStart,
+    required this.forecastEnd,
+    required this.cloudCover,
+    required this.conditionCode,
+    required this.humidity,
+    required this.precipitationAmount,
+    required this.precipitationChance,
+    required this.precipitationType,
+    required this.snowfallAmount,
+    required this.windDirection,
+    required this.windSpeed,
   });
 
   factory DaypartForecast.fromJson(Map<String, dynamic> json) {
-    if(json == null) return DaypartForecast();
-
     return DaypartForecast(
       forecastStart: DateTime.parse(json['forecastStart']),
       forecastEnd: DateTime.parse(json['forecastEnd']),

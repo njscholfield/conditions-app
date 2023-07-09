@@ -250,14 +250,14 @@ class SunCardExpanded extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text('All times are in your current time zone',
-                   style: Theme.of(context).textTheme.bodyMedium.copyWith(color: Colors.white)
+                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white)
                   ),
                 ),
                   ClickableLink(
                   url: 'https://www.timeanddate.com/astronomy/different-types-twilight.html',
                   child: Text(
                     'Twilight, Dawn, and Dusk Info',
-                    style: Theme.of(context).textTheme.bodyLarge.copyWith(color: Colors.white)
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white)
                   ),
                 )
               ],

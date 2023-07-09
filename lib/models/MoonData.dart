@@ -8,7 +8,7 @@ class MoonData extends StatelessWidget {
   final String moonPhaseDesc;
   final DateTime date;
 
-  MoonData({this.moonrise, this.moonset, this.moonPhase, this.moonPhaseDesc, this.date});
+  MoonData({required this.moonrise, required this.moonset, required this.moonPhase, required this.moonPhaseDesc, required this.date});
 
   factory MoonData.fromJson(Map<String, dynamic> json) {
     String calculatePhase(double moonPhase) {
@@ -127,7 +127,7 @@ class MoonData extends StatelessWidget {
                       padding: (moonPhaseDesc.length < 10) ? const EdgeInsets.all(0) : const EdgeInsets.symmetric(vertical: 3.0),
                       child: Text(
                         moonPhaseDesc,
-                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.titleMedium.copyWith(color: Colors.white),
+                        style: (moonPhaseDesc.length < 10) ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                         // style: Theme.of(context).textTheme.title,
                         textAlign: TextAlign.center,
                       ),
