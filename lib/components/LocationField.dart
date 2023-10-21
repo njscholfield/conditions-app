@@ -26,8 +26,7 @@ class _LocationFieldState extends State<LocationField> {
   final TextEditingController locationController = TextEditingController();
   // Geolocator geolocator = Geolocator();
   bool invalidLoc = false;
-  late String _hereAppId;
-  late String _hereAppCode;
+  late String _hereApiKey;
   late WeatherKit weatherKit;
 
   // Load in the Dark Sky API Key from the config file
@@ -44,8 +43,7 @@ class _LocationFieldState extends State<LocationField> {
     locationController.text = 'Pittsburgh, PA';
     loadAsset().then((val) => setState(() {
           final Map<String, dynamic> data = jsonDecode(val);
-          _hereAppId = data['here_app_id'];
-          _hereAppCode = data['here_app_code'];
+          _hereApiKey = data['here_api_key'];
           initWeatherKit(data);
         }));
     super.initState();
@@ -170,7 +168,7 @@ class _LocationFieldState extends State<LocationField> {
 
   Future<List<MoonData>> callMoonApi(Position coords) async {
     Uri hereApi = Uri.parse(
-        'https://weather.cit.api.here.com/weather/1.0/report.json?product=forecast_astronomy&latitude=${coords.latitude}&longitude=${coords.longitude}&app_id=$_hereAppId&app_code=$_hereAppCode');
+        'https://weather.cit.api.here.com/weather/1.0/report.json?product=forecast_astronomy&latitude=${coords.latitude}&longitude=${coords.longitude}&apiKey=$_hereApiKey');
     final response = await http.get(hereApi);
 
     if (response.statusCode == 200) {
