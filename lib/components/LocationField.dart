@@ -103,7 +103,7 @@ class _LocationFieldState extends State<LocationField> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
+    return await Geolocator.getCurrentPosition();
   }
 
   void fetchInfo({Position? coords, String? location}) async {
