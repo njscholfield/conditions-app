@@ -36,7 +36,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Astronomical Twilight Begin',
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
-                              child: Icon(
+                              child: FaIcon(
                                 FontAwesomeIcons.userAstronaut,
                                 size: 40,
                                 color: Colors.blueGrey[100]
@@ -55,7 +55,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Nautical Twilight Begin',
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12, right: 10.0),
-                              child: Icon(
+                              child: FaIcon(
                                 FontAwesomeIcons.ship,
                                 size: 40,
                                 color: Colors.blueGrey[300],
@@ -74,7 +74,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Civil Twilight Begin (Dawn)',
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
-                              child: Icon(
+                              child: FaIcon(
                                 FontAwesomeIcons.solidBuilding,
                                 size: 40,
                                 color: Colors.blueGrey[400]
@@ -97,12 +97,12 @@ class SunCardExpanded extends StatelessWidget {
                                 constraints: const BoxConstraints(maxWidth: 65.0),
                                  child: Row(
                                   children: <Widget>[
-                                     Icon(
+                                     FaIcon(
                                       FontAwesomeIcons.solidSun,
                                       color: Colors.yellow[300],
                                       size: 40
                                     ),
-                                     Icon(
+                                     FaIcon(
                                       FontAwesomeIcons.upLong,
                                       color: Colors.black
                                     ),
@@ -124,7 +124,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Solar Noon',
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
-                              child: Icon(
+                              child: FaIcon(
                                 FontAwesomeIcons.solidClock,
                                 size: 40,
                                 color: Colors.yellow
@@ -147,12 +147,12 @@ class SunCardExpanded extends StatelessWidget {
                                 constraints: BoxConstraints(maxWidth: 65.0),
                                  child: Row(
                                   children: <Widget>[
-                                     Icon(
+                                     FaIcon(
                                       FontAwesomeIcons.solidSun,
                                       color: Colors.yellow[800],
                                       size: 40,
                                     ),
-                                     Icon(
+                                     FaIcon(
                                       FontAwesomeIcons.downLong,
                                       color: Colors.black
                                     ),
@@ -173,7 +173,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Civil Twilight End (Dusk)',
                              child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
-                               child: Icon(
+                               child: FaIcon(
                                 FontAwesomeIcons.solidBuilding,
                                 color: Colors.blueGrey[600],
                                 size: 40
@@ -192,7 +192,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Nautilcal Twilight End',
                              child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0, right: 10.0),
-                               child: Icon(
+                               child: FaIcon(
                                 FontAwesomeIcons.ship,
                                 size: 40,
                                 color: Colors.blueGrey[700]
@@ -211,7 +211,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Astronomical Twilight End',
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
-                              child: Icon(
+                              child: FaIcon(
                                 FontAwesomeIcons.userAstronaut,
                                 size: 40,
                                 color: Colors.blueGrey[900]
@@ -230,7 +230,7 @@ class SunCardExpanded extends StatelessWidget {
                             message: 'Day Length',
                              child: Padding(
                               padding: const EdgeInsets.only(bottom: 5.0),
-                               child: Icon(
+                               child: FaIcon(
                                 FontAwesomeIcons.stopwatch,
                                 color: Colors.indigoAccent,
                                 size: 40

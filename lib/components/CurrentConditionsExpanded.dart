@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:conditions/components/ClickableLink.dart';
 import 'package:conditions/models/WeatherKit.dart';
+import 'package:conditions/models/Units.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CurrentConditionsExpanded extends StatelessWidget {
   CurrentConditionsExpanded(this._forecast, this.unitIdx);
   final WeatherKitData _forecast;
   final int unitIdx;
-  final List<String> windLabels = ['', 'kph', 'mph', 'mph', 'm/s'];
   
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,11 @@ class CurrentConditionsExpanded extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Icon(FontAwesomeIcons.temperatureHalf, color: Colors.white, size: 25.0),
-                                Text('${_forecast.currentWeather.temperature.round()}º',
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FaIcon(FontAwesomeIcons.temperatureHalf, color: Colors.white, size: 25.0),
+                                ),
+                                Text('${Units.temperature(_forecast.currentWeather.temperature, unitIdx).round()}º',
                                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.green[300]),
                                 ),
                               ],
@@ -63,7 +66,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Icon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
+                                child: FaIcon(FontAwesomeIcons.cloudShowersHeavy, color: Colors.white, size: 25.0),
                               ),
                               Text('${(_forecast.forecastDaily.days[0].precipitationChance * 100).round()}%',
                                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.blue[200])
@@ -83,7 +86,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                              mainAxisAlignment: MainAxisAlignment.center,
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
-                               Text('${_forecast.forecastDaily.days[0].temperatureMin.round()}º',
+                               Text('${Units.temperature(_forecast.forecastDaily.days[0].temperatureMin, unitIdx).round()}º',
                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.tealAccent[400])
                                ),
                              ],
@@ -102,7 +105,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                              mainAxisAlignment: MainAxisAlignment.center,
                              mainAxisSize: MainAxisSize.min,
                              children: <Widget>[
-                               Text('${_forecast.forecastDaily.days[0].temperatureMax.round()}º',
+                               Text('${Units.temperature(_forecast.forecastDaily.days[0].temperatureMax, unitIdx).round()}º',
                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.tealAccent[400])
                                ),
                              ],
@@ -122,7 +125,10 @@ class CurrentConditionsExpanded extends StatelessWidget {
                              children: <Widget>[
                                Row(
                                  children: <Widget>[
-                                   Icon(FontAwesomeIcons.droplet, color: Colors.white, size: 25.0),
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: FaIcon(FontAwesomeIcons.droplet, color: Colors.white, size: 25.0),
+                                   ),
                                    Text('${(_forecast.currentWeather.humidity * 100).round()}%',
                                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan[300])
                                    ),
@@ -139,12 +145,12 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                  children: <Widget>[
                                    Padding(
                                      padding: const EdgeInsets.only(right: 8.0),
-                                     child: Icon(FontAwesomeIcons.wind, color: Colors.white),
+                                     child: FaIcon(FontAwesomeIcons.wind, color: Colors.white),
                                    ),
-                                   Text('${_forecast.currentWeather.windSpeed.round()}',
+                                   Text('${Units.speed(_forecast.currentWeather.windSpeed, unitIdx).round()}',
                                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan[300]),
                                    ),
-                                   Text(windLabels[unitIdx],
+                                   Text(Units.speedLabel(unitIdx),
                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.cyan)
                                    )
                                  ],
@@ -160,7 +166,7 @@ class CurrentConditionsExpanded extends StatelessWidget {
                                  children: <Widget>[
                                    Padding(
                                      padding: const EdgeInsets.only(right: 12.0),
-                                     child: Icon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
+                                     child: FaIcon(FontAwesomeIcons.cloud, color: Colors.white, size: 25.0)
                                    ),
                                    Text('${(_forecast.currentWeather.cloudCover * 100).round()}%',
                                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.cyan),

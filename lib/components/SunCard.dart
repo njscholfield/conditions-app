@@ -31,12 +31,12 @@ class SunCard extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 12.0),
                       child: Row(
                         children: <Widget>[
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.solidSun,
                             color: Colors.yellow[600],
                             size: 40
                           ),
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.upLong,
                             color: Colors.black
                           ),
@@ -59,12 +59,12 @@ class SunCard extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 12.0),
                       child: Row(
                         children: <Widget>[
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.solidSun,
                             color: Colors.yellow[800],
                             size: 40,
                           ),
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.downLong,
                             color: Colors.black
                           ),
@@ -84,7 +84,7 @@ class SunCard extends StatelessWidget {
                     message: 'Civil Twilight End (Dusk)',
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 12.0),
-                      child: Icon(
+                      child: FaIcon(
                         FontAwesomeIcons.solidBuilding,
                         color: Colors.blueGrey[600],
                         size: 40

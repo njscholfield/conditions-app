@@ -54,12 +54,12 @@ class MoonData extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
+                            FaIcon(
                               FontAwesomeIcons.solidMoon,
                               color: Colors.blueGrey[600],
                               size: 40
                             ),
-                            Icon(
+                            FaIcon(
                               FontAwesomeIcons.upLong,
                               color: Colors.black
                             ),
@@ -87,12 +87,12 @@ class MoonData extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
+                            FaIcon(
                               FontAwesomeIcons.solidMoon,
                               color: Colors.blueGrey[600],
                               size: 40,
                             ),
-                            Icon(
+                            FaIcon(
                               FontAwesomeIcons.downLong,
                               color: Colors.black
                             ),

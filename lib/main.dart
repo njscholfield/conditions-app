@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:conditions/components/SunCard.dart';
 import 'package:conditions/components/SunCardExpanded.dart';
@@ -73,6 +74,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<SunData?>? _sunData;
   Future<List<MoonData>?>? _moonData;
   Future<WeatherKitData?>? _weatherKit;
+  int _unitIdx = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUnit();
+  }
+
+  void loadUnit() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _unitIdx = prefs.getInt('unit') ?? 3;
+    });
+  }
 
   void updateSunData(Future<SunData?> newSunData) {
     setState(() {
@@ -99,13 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FontAwesomeIcons.gear),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
+            icon: FaIcon(FontAwesomeIcons.gear),
+            onPressed: () async {
+              await Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
                   return Settings();
                 },
               ));
+              loadUnit();
             },
           )
         ],
@@ -136,11 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return CurrentConditionsExpanded(snapshot.data!, 1);
+                            return CurrentConditionsExpanded(snapshot.data!, _unitIdx);
                           },
                         ));
                       },
-                      child: CurrentConditions(snapshot.data!),
+                      child: CurrentConditions(snapshot.data!, _unitIdx),
                     ),
                   ],
                 );
@@ -149,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.circleExclamation,
+                      FaIcon(FontAwesomeIcons.circleExclamation,
                           color: Colors.red),
                       Text('Error loading Weather data',
                           style: Theme.of(context)
@@ -190,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
+                      FaIcon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading sun data',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.red)
                       ),
@@ -233,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.circleExclamation, color: Colors.red),
+                      FaIcon(FontAwesomeIcons.circleExclamation, color: Colors.red),
                       Text('Error loading moon data: ${snapshot.error}',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.red)
                       ),

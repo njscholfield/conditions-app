@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:conditions/models/WeatherKit.dart';
+import 'package:conditions/models/Units.dart';
 import 'package:conditions/components/ClickableLink.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CurrentConditions extends StatelessWidget {
-  CurrentConditions(this._forecast);
+  CurrentConditions(this._forecast, this.unitIdx);
   final WeatherKitData _forecast;
+  final int unitIdx;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +36,13 @@ class CurrentConditions extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(FontAwesomeIcons.temperatureHalf,
-                                  color: Colors.white, size: 25.0),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FaIcon(FontAwesomeIcons.temperatureHalf,
+                                    color: Colors.white, size: 25.0),
+                              ),
                               Text(
-                                _forecast.currentWeather.temperature
+                                Units.temperature(_forecast.currentWeather.temperature, unitIdx)
                                         .round()
                                         .toString() +
                                     'º',
@@ -67,7 +72,7 @@ class CurrentConditions extends StatelessWidget {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(FontAwesomeIcons.cloudShowersHeavy,
+                              child: FaIcon(FontAwesomeIcons.cloudShowersHeavy,
                                   color: Colors.white, size: 25.0),
                             ),
                             Text(

@@ -24,6 +24,7 @@ class LocationField extends StatefulWidget {
 class _LocationFieldState extends State<LocationField> {
   bool locUsed = false;
   final TextEditingController locationController = TextEditingController();
+  final Geocoding geocoding = Geocoding();
   // Geolocator geolocator = Geolocator();
   bool invalidLoc = false;
   late String _hereApiKey;
@@ -110,12 +111,12 @@ class _LocationFieldState extends State<LocationField> {
     List<Placemark> placemark;
     List<Location> locations;
     if (coords != null) {
-      placemark =
-          await placemarkFromCoordinates(coords.latitude, coords.longitude);
+      placemark = await geocoding.placemarkFromCoordinates(
+          coords.latitude, coords.longitude);
     } else {
       try {
-        locations = await locationFromAddress(location!);
-        placemark = await placemarkFromCoordinates(
+        locations = await geocoding.locationFromAddress(location!);
+        placemark = await geocoding.placemarkFromCoordinates(
             locations[0].latitude, locations[0].longitude);
       } on PlatformException catch (_) {
         setState(() {
@@ -203,7 +204,7 @@ class _LocationFieldState extends State<LocationField> {
         decoration: InputDecoration(
             labelText: 'Enter a location',
             prefix: IconButton(
-              icon: Icon(FontAwesomeIcons.locationArrow,
+              icon: FaIcon(FontAwesomeIcons.locationArrow,
                   color: locUsed ? Colors.blueAccent[700] : Colors.grey),
               onPressed: () async {
                 final Position currentLocation =
@@ -217,7 +218,7 @@ class _LocationFieldState extends State<LocationField> {
               },
             ),
             suffix: IconButton(
-              icon: Icon(FontAwesomeIcons.magnifyingGlass),
+              icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
               onPressed: () {
                 setState(() {
                   locUsed = false;
